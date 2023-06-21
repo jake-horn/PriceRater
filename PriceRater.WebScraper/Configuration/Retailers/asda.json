@@ -1,0 +1,6 @@
+{
+  "retailerId":  "1",
+  "cookiesPopUp": "onetrust-accept-btn-handler",
+  "titleElement": ".pdp-main-details__title",
+  "priceElement": ".co-product__price.pdp-main-details__price"
+}
