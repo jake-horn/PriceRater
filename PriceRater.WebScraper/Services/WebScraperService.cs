@@ -12,35 +12,33 @@ namespace PriceRater.WebScraper.Services
 
         public IConfiguration? GetRetailerConfiguration(string webAddress)
         {
+            string retailerName; 
             string retailerConfigurationPath; 
-            var appSettingsInformation = LoadAppSettingsInformation(solutionRoot);
+            var appSettingsInformation = GetConfiguration(solutionRoot, "appsettings.json");
 
             switch (webAddress)
             {
                 case string asdaAddress when asdaAddress.Contains("asda.com"):
-                    retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")["Asda"];
+                    retailerName = "Asda"; 
                     break;
                 case string aldiAddress when aldiAddress.Contains("aldi.co.uk"):
-                    retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")["Aldi"];
+                    retailerName = "Aldi";
                     break;
                 default:
                     return null;
             }
 
-            return new ConfigurationBuilder()
-                .SetBasePath(solutionRoot)
-                .AddJsonFile(retailerConfigurationPath, optional: true, reloadOnChange: true)
-                .Build();
+            retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")[retailerName];
+
+            return GetConfiguration(solutionRoot, retailerConfigurationPath);
         }
 
-        private IConfiguration LoadAppSettingsInformation(string solutionRoot)
+        private IConfiguration GetConfiguration(string solutionRoot, string jsonFilePath)
         {
-            var configurationBuilder = new ConfigurationBuilder()
+            return new ConfigurationBuilder()
                 .SetBasePath(solutionRoot)
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile(jsonFilePath, optional: false, reloadOnChange: true)
                 .Build();
-
-            return configurationBuilder;
         }
     }
 }
