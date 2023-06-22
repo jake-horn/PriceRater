@@ -24,7 +24,7 @@ namespace PriceRater.WebScraper
             {
                 var scrapedData = _dataScraper.ScrapeProductData(address.Key, address.Value);
 
-                if (scrapedData != null)
+                if (scrapedData is not null)
                 {
                     _productRepository.AddProduct(scrapedData);
                 }
