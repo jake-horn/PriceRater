@@ -28,8 +28,6 @@ namespace PriceRater.WebScraper.Services
 
                 DealWithCookies(retailerConfig, webAddress);
 
-                _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-
                 var productData = ExtractProductData(retailerConfig);
 
                 return new ProductDTO()
@@ -84,6 +82,8 @@ namespace PriceRater.WebScraper.Services
             {
                 _webDriver.FindElement(By.Id(cookiesPopUp)).Click();
             }
+
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
             _webDriverWait.Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
         }
