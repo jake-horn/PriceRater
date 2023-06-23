@@ -2,7 +2,7 @@
 
 namespace PriceRater.WebScraper.Services
 {
-    public interface IWebScraperService
+    public interface IRetailerConfigurationProvider
     { 
         public IConfiguration? GetRetailerConfiguration(string webAddress);
     }

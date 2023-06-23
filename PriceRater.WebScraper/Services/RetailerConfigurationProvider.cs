@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using PriceRater.WebScraper.Utilities.Exceptions;
 
 namespace PriceRater.WebScraper.Services
 {
-    public class WebScraperService : IWebScraperService
+    public class RetailerConfigurationProvider : IRetailerConfigurationProvider
     {
         private readonly string? solutionRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
         
-        public WebScraperService()
+        public RetailerConfigurationProvider()
         {
         }
 
@@ -23,7 +24,7 @@ namespace PriceRater.WebScraper.Services
             switch (webAddress)
             {
                 case string asdaAddress when asdaAddress.Contains("asda.com"):
-                    retailerName = "Asda"; 
+                    retailerName = "Asda";
                     break;
                 case string aldiAddress when aldiAddress.Contains("aldi.co.uk"):
                     retailerName = "Aldi";
@@ -33,8 +34,11 @@ namespace PriceRater.WebScraper.Services
             }
 
             var retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")[retailerName];
+            var retailerConfiguration = GetConfiguration(solutionRoot, retailerConfigurationPath);
 
-            return GetConfiguration(solutionRoot, retailerConfigurationPath);
+            return retailerConfiguration is null
+                ? throw new RetailerConfigurationException($"Retailer configuration not found for: {webAddress}")
+                : retailerConfiguration;
         }
 
         /// <summary>

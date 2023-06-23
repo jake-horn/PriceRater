@@ -34,7 +34,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
             return new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
         });
 
-        services.AddTransient<IWebScraperService, WebScraperService>();
+        services.AddTransient<IRetailerConfigurationProvider, RetailerConfigurationProvider>();
         services.AddSingleton<IDbConnectionFactory>(provider =>
         {
             var configuration = provider.GetRequiredService<IConfiguration>();

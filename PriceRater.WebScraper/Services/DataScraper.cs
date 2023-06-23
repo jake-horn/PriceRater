@@ -11,20 +11,20 @@ namespace PriceRater.WebScraper.Services
     {
         private readonly IWebDriver _webDriver;
         private readonly WebDriverWait _webDriverWait;
-        private readonly IWebScraperService _webScraperService;
+        private readonly IRetailerConfigurationProvider _retailerConfigurationProvider;
 
-        public DataScraper(IWebDriver webDriver, WebDriverWait webDriverWait, IWebScraperService webScraperService)
+        public DataScraper(IWebDriver webDriver, WebDriverWait webDriverWait, IRetailerConfigurationProvider retailerConfigurationProvider)
         {
             _webDriver = webDriver;
             _webDriverWait = webDriverWait;
-            _webScraperService = webScraperService;
+            _retailerConfigurationProvider = retailerConfigurationProvider;
         }
 
         public ProductDTO? ScrapeProductData(int webScraperId, string webAddress)
         {
             try
             {
-                var retailerConfig = GetRetailerConfiguration(webAddress);
+                var retailerConfig = _retailerConfigurationProvider.GetRetailerConfiguration(webAddress);
 
                 DealWithCookies(retailerConfig, webAddress);
 
@@ -86,15 +86,6 @@ namespace PriceRater.WebScraper.Services
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
             _webDriverWait.Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
-        }
-
-        private IConfiguration? GetRetailerConfiguration(string webAddress)
-        {
-            var retailerConfiguration = _webScraperService.GetRetailerConfiguration(webAddress);
-
-            return retailerConfiguration is null
-                ? throw new RetailerConfigurationException($"Retailer configuration not found for: {webAddress}")
-                : retailerConfiguration;
         }
     }
 }
