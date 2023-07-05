@@ -29,6 +29,9 @@ namespace PriceRater.WebScraper.Services
                 case string aldiAddress when aldiAddress.Contains("aldi.co.uk"):
                     retailerName = "Aldi";
                     break;
+                case string morrisonsAddress when morrisonsAddress.Contains("morrisons.com"):
+                    retailerName = "Morrisons";
+                    break;
                 default:
                     return null;
             }
