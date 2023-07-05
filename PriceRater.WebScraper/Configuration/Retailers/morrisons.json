@@ -1,0 +1,6 @@
+{
+  "retailerId": "3",
+  "cookiesPopUp": "onetrust-accept-btn-handler",
+  "titleElement": "h1:nth-child(1)",
+  "priceElement": ".bop-price__current"
+}
