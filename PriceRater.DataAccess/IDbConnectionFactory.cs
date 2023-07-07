@@ -1,9 +1,9 @@
 ﻿using System.Data;
 
-namespace PriceRater.WebScraper.DataAccess
+namespace PriceRater.DataAccess
 {
     public interface IDbConnectionFactory
-    {
+    { 
         public IDbConnection CreateConnection();
     }
 }

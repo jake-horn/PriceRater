@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PriceRater.WebScraper;
-using PriceRater.WebScraper.DataAccess;
 using Microsoft.Extensions.Configuration;
-using PriceRater.WebScraper.DataAccess.Interfaces;
-using PriceRater.WebScraper.DataAccess.Repositories;
 using PriceRater.WebScraper.Services;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using PriceRater.DataAccess.Interfaces;
+using PriceRater.DataAccess.Repositories;
+using PriceRater.DataAccess;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>

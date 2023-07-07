@@ -1,4 +1,4 @@
-﻿using PriceRater.WebScraper.DataAccess;
+﻿using PriceRater.DataAccess;
 using Dapper; 
 using System.Data;
 

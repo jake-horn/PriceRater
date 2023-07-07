@@ -1,13 +1,13 @@
 ﻿using Dapper;
-using PriceRater.WebScraper.DataAccess.DTO;
-using PriceRater.WebScraper.DataAccess.Interfaces;
+using PriceRater.DataAccess.DTO;
+using PriceRater.DataAccess.Interfaces;
 using System.Data;
 
-namespace PriceRater.WebScraper.DataAccess.Repositories
+namespace PriceRater.DataAccess.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly IDbConnectionFactory _connectionFactory; 
+        private readonly IDbConnectionFactory _connectionFactory;
 
         public ProductRepository(IDbConnectionFactory connectionFactory)
         {
@@ -18,7 +18,7 @@ namespace PriceRater.WebScraper.DataAccess.Repositories
         {
             try
             {
-                using (var connection =  _connectionFactory.CreateConnection())
+                using (var connection = _connectionFactory.CreateConnection())
                 {
                     connection.Open();
 
