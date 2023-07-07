@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using PriceRater.WebScraper.DataAccess.DTO;
+using PriceRater.DataAccess.DTO;
 using PriceRater.WebScraper.Models;
 using PriceRater.WebScraper.Utilities.Exceptions; 
 

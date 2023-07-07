@@ -1,4 +1,4 @@
-﻿using PriceRater.WebScraper.DataAccess.DTO;
+﻿using PriceRater.DataAccess.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
