@@ -5,9 +5,11 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRater.WebScraper", "PriceRater.WebScraper\PriceRater.WebScraper.csproj", "{65D0A236-B0E5-4D01-9C9E-1A7E56647DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceRater.API", "PriceRater.API\PriceRater.API.csproj", "{A9A04284-4027-40A9-BFE7-0FC6CCD4AFFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRater.API", "PriceRater.API\PriceRater.API.csproj", "{A9A04284-4027-40A9-BFE7-0FC6CCD4AFFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceRater.DataAccess", "PriceRater.DataAccess\PriceRater.DataAccess.csproj", "{F6604333-DBEF-4D84-8498-AFCFCA52A033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRater.DataAccess", "PriceRater.DataAccess\PriceRater.DataAccess.csproj", "{F6604333-DBEF-4D84-8498-AFCFCA52A033}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PriceRater.Database", "PriceRater.Database\PriceRater.Database.sqlproj", "{B77498D7-7D38-43C1-B1B6-F011019B576B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,12 @@ Global
 		{F6604333-DBEF-4D84-8498-AFCFCA52A033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6604333-DBEF-4D84-8498-AFCFCA52A033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6604333-DBEF-4D84-8498-AFCFCA52A033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
