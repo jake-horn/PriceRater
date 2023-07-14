@@ -56,5 +56,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\spAddProduct.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAllWebScrapingAddresses.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\Product.sql" />
+    <Build Include="dbo\Tables\Retailer.sql" />
+    <Build Include="dbo\Tables\UserCategoryProduct.sql" />
+    <Build Include="dbo\Tables\WebScrapingList.sql" />
+    <Build Include="dbo\Tables\PriceHistory.sql" />
   </ItemGroup>
 </Project>
