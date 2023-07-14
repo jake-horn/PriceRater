@@ -1,15 +1,14 @@
 ﻿-- =============================================
 -- Author:		Jake Horn
--- Create date: 30/05/2023
--- Description:	Adds product to dbo.Product table
+-- Create date: 14/07/2023
+-- Description:	Created proc to add products to dbo.PriceHistory when a product is added or updated
 -- =============================================
-CREATE PROCEDURE [dbo].[spAddProduct] 
+CREATE PROCEDURE [dbo].[spAddNewProductToPriceHistory]
 	-- Add the parameters for the stored procedure here
 	@Title NVARCHAR(500), 
 	@Price DECIMAL(7,2), 
 	@WebAddress NVARCHAR(500), 
-	@DateAdded DATETIME2, 
-	@DateUpdated DATETIME2, 
+	@DateAdded DATETIME2,  
 	@RetailerId INT, 
 	@WebScrapingId INT
 AS
@@ -18,13 +17,12 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-    INSERT INTO dbo.Product
+    INSERT INTO dbo.PriceHistory
 	(
 		Title, 
 		Price, 
 		WebAddress, 
-		DateAdded, 
-		DateUpdated, 
+		DateAdded,  
 		RetailerId, 
 		WebScrapingId
 	)
@@ -34,17 +32,7 @@ BEGIN
 		@Price, 
 		@WebAddress, 
 		@DateAdded, 
-		@DateUpdated, 
 		@RetailerId, 
 		@WebScrapingId
 	)
-
-	EXEC dbo.spAddNewProductToPriceHistory
-		@Title = @Title, 
-		@Price = @Price, 
-		@WebAddress = @WebAddress, 
-		@DateAdded = @DateAdded, 
-		@RetailerId = @RetailerId, 
-		@WebScrapingId = @WebScrapingId
-
 END
