@@ -70,5 +70,6 @@
     <Build Include="dbo\Tables\WebScrapingList.sql" />
     <Build Include="dbo\Tables\PriceHistory.sql" />
     <Build Include="dbo\Stored Procedures\spAddNewProductToPriceHistory.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAllNewWebScrapingAddresses.sql" />
   </ItemGroup>
 </Project>
