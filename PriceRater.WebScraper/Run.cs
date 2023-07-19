@@ -27,7 +27,14 @@ namespace PriceRater.WebScraper
 
                 if (scrapedData is not null)
                 {
-                    _productRepository.AddProduct(scrapedData);
+                    if (_productRepository.DoesProductExist(scrapedData))
+                    {
+                        _productRepository.UpdateProduct(scrapedData);
+                    }
+                    else
+                    {
+                        _productRepository.AddProduct(scrapedData);
+                    }
                 }
             }
         }
