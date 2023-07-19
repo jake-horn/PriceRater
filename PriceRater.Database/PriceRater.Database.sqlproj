@@ -71,5 +71,7 @@
     <Build Include="dbo\Tables\PriceHistory.sql" />
     <Build Include="dbo\Stored Procedures\spAddNewProductToPriceHistory.sql" />
     <Build Include="dbo\Stored Procedures\spGetAllNewWebScrapingAddresses.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateExistingProduct.sql" />
+    <Build Include="dbo\Stored Procedures\spCheckIfProductExists.sql" />
   </ItemGroup>
 </Project>

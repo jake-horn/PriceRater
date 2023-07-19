@@ -30,8 +30,6 @@ namespace PriceRater.WebScraper.Services
 
                 var productData = ExtractProductData(retailerConfig);
 
-                _webDriver.Dispose();
-
                 return new ProductDTO()
                 {
                     Title = productData.Title,
@@ -45,13 +43,11 @@ namespace PriceRater.WebScraper.Services
             }
             catch (RetailerConfigurationException ex)
             {
-                _webDriver.Dispose();
                 Console.WriteLine($"Failed to add {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
                 return null; 
             }
             catch (Exception ex)
             {
-                _webDriver.Dispose();
                 Console.WriteLine($"Failed to add {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
                 return null;
             }
