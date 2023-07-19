@@ -34,5 +34,50 @@ namespace PriceRater.DataAccess.Repositories
                 Console.WriteLine("An error occurred: " + ex.Message);
             }
         }
+
+        public void UpdateProduct(ProductDTO product)
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    connection.Open();
+
+                    connection.Execute("dbo.spUpdateExistingProduct", product, commandType: CommandType.StoredProcedure);
+
+                    connection.Close();
+
+                    Console.WriteLine($"Updated {product.Title} in database");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+        }
+
+        public bool DoesProductExist(ProductDTO product)
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    var parameters = new { WebScrapingId = product.WebScrapingId };
+
+                    connection.Open();
+
+                    bool doesProductExist = connection.QuerySingle<bool>("dbo.spCheckIfProductExists", parameters, commandType: CommandType.StoredProcedure);
+
+                    connection.Close();
+
+                    return doesProductExist; 
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return false; 
+            }
+        }
     }
 }

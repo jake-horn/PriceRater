@@ -10,5 +10,9 @@ namespace PriceRater.DataAccess.Interfaces
     public interface IProductRepository
     {
         public void AddProduct(ProductDTO product);
+
+        public void UpdateProduct(ProductDTO product);
+
+        public bool DoesProductExist(ProductDTO product);
     }
 }

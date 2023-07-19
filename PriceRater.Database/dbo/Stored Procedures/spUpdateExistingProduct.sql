@@ -3,7 +3,7 @@
 -- Create date: 19th July 2023
 -- Description:	Updates an existing product, and adds the entry to dbo.PriceHistory
 -- =============================================
-CREATE PROCEDURE dbo.spUpdateExistingProduct 
+CREATE PROCEDURE [dbo].[spUpdateExistingProduct] 
 	@Title NVARCHAR(500), 
 	@Price DECIMAL(7,2), 
 	@WebAddress NVARCHAR(500), 
@@ -25,6 +25,6 @@ BEGIN
 	WHERE WebScrapingId = @WebScrapingId
 
 	-- Add updated product into the dbo.PriceHistory
-	EXEC dbo.spAddNewProductToPriceHistory @Title, @Price, @WebAddress, @DateAdded, @DateUpdated, @RetailerId, @WebScrapingId
+	EXEC dbo.spAddNewProductToPriceHistory @Title, @Price, @WebAddress, @DateAdded, @RetailerId, @WebScrapingId
 		
 END
