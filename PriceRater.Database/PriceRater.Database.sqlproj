@@ -59,6 +59,10 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="auth\" />
+    <Folder Include="auth\Tables\" />
+    <Folder Include="auth\Stored Procedures\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spAddProduct.sql" />
@@ -73,5 +77,10 @@
     <Build Include="dbo\Stored Procedures\spGetAllNewWebScrapingAddresses.sql" />
     <Build Include="dbo\Stored Procedures\spUpdateExistingProduct.sql" />
     <Build Include="dbo\Stored Procedures\spCheckIfProductExists.sql" />
+    <Build Include="auth\Tables\Users.sql" />
+    <Build Include="auth\Stored Procedures\spGetUserById.sql" />
+    <Build Include="auth\Stored Procedures\spGetUserByEmail.sql" />
+    <Build Include="auth\Stored Procedures\spCreateUser.sql" />
+    <Build Include="Security\auth.sql" />
   </ItemGroup>
 </Project>
