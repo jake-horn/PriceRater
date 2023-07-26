@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceRater.DataAccess", "Pr
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PriceRater.Database", "PriceRater.Database\PriceRater.Database.sqlproj", "{B77498D7-7D38-43C1-B1B6-F011019B576B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceRater.Common", "PriceRater.Common\PriceRater.Common.csproj", "{5F3E178C-F629-4F5A-AE52-246C10EAD7E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B77498D7-7D38-43C1-B1B6-F011019B576B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5F3E178C-F629-4F5A-AE52-246C10EAD7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F3E178C-F629-4F5A-AE52-246C10EAD7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F3E178C-F629-4F5A-AE52-246C10EAD7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F3E178C-F629-4F5A-AE52-246C10EAD7E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
