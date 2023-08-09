@@ -90,11 +90,7 @@ namespace PriceRater.DataAccess.Repositories
 
                     connection.Open();
 
-                    var queriedUser = connection.QuerySingleOrDefault<User>("auth.spGetUserById", parameters, commandType: CommandType.StoredProcedure);
-
-                    connection.Close();
-
-                    return queriedUser;
+                    return connection.QuerySingleOrDefault<User>("auth.spGetUserById", parameters, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception ex)

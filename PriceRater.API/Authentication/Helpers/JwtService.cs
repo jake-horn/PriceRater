@@ -6,7 +6,7 @@ namespace PriceRater.API.Authentication.Helpers
 {
     public class JwtService : IJwtService
     {
-        private string _secureKey = "secure key to be replaced very very very soon"; 
+        private string _secureKey = "secure key to be replaced very very very soon";
 
         public string GenerateJwtToken(int id)
         {

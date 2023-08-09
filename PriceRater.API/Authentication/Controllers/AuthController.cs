@@ -49,7 +49,9 @@ namespace PriceRater.API.Authentication.Controllers
 
             Response.Cookies.Append("jwtToken", jwtToken, new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                Secure = true, 
+                SameSite = SameSiteMode.Strict
             });
 
             return Ok(new
