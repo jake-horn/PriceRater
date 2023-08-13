@@ -12,7 +12,7 @@ namespace PriceRater.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var apiCorsPolicy = "_apiCorsPolicy";
+            var apiCorsPolicy = "apiCorsPolicy";
 
             var sqlConfig = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -25,7 +25,7 @@ namespace PriceRater.API
                 options.AddPolicy(name: apiCorsPolicy,
                     policy =>
                     {
-                        policy.WithOrigins(new[] { "https://localhost:3000", "https://localhost:8080", "https://localhost:4200" });
+                        policy.WithOrigins(new[] { "http://localhost:5500", "https://localhost:5500" });
                         policy.AllowAnyHeader();
                         policy.AllowAnyMethod();
                         policy.AllowCredentials();
@@ -44,8 +44,11 @@ namespace PriceRater.API
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             var app = builder.Build();
+
+            app.UseCors(apiCorsPolicy);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -55,8 +58,6 @@ namespace PriceRater.API
             }
 
             app.UseHttpsRedirection();
-
-            app.UseCors(apiCorsPolicy);
 
             app.UseAuthorization();
 
