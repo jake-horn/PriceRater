@@ -63,6 +63,7 @@
     <Folder Include="auth\Tables\" />
     <Folder Include="auth\Stored Procedures\" />
     <Folder Include="Security\" />
+    <Folder Include="dbo\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spAddProduct.sql" />
@@ -70,7 +71,6 @@
     <Build Include="dbo\Tables\Category.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\Retailer.sql" />
-    <Build Include="dbo\Tables\UserCategoryProduct.sql" />
     <Build Include="dbo\Tables\WebScrapingList.sql" />
     <Build Include="dbo\Tables\PriceHistory.sql" />
     <Build Include="dbo\Stored Procedures\spAddNewProductToPriceHistory.sql" />
@@ -82,5 +82,9 @@
     <Build Include="auth\Stored Procedures\spGetUserByEmail.sql" />
     <Build Include="auth\Stored Procedures\spCreateUser.sql" />
     <Build Include="Security\auth.sql" />
+    <Build Include="dbo\Tables\UserProductCategory.sql" />
+    <Build Include="dbo\Views\GetUserCategoriesAndProducts.sql" />
+    <Build Include="dbo\Stored Procedures\spGetCategoriesAndProductsForUser.sql" />
+    <Build Include="dbo\Stored Procedures\GetAllProducts.sql" />
   </ItemGroup>
 </Project>

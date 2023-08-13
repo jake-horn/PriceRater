@@ -1,6 +1,10 @@
 ﻿CREATE TABLE [dbo].[Category] (
-    [Id]           INT            IDENTITY (1, 1) NOT NULL,
-    [CategoryName] NVARCHAR (100) NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    [lId]           INT            IDENTITY (1, 1) NOT NULL,
+    [sCategoryName] NVARCHAR (200) NOT NULL,
+    [lUserId]       INT            NOT NULL,
+    PRIMARY KEY CLUSTERED ([lId] ASC),
+    FOREIGN KEY ([lUserId]) REFERENCES [auth].[Users] ([lUserId])
 );
+
+
 
