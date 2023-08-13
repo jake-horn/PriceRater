@@ -14,5 +14,9 @@ namespace PriceRater.DataAccess.Interfaces
         public void UpdateProduct(ProductDTO product);
 
         public bool DoesProductExist(ProductDTO product);
+
+        public IEnumerable<ProductDTO> GetProducts();
+
+        public IEnumerable<UserCategoryDTO> GetCategoriesAndProducts(int userId);
     }
 }

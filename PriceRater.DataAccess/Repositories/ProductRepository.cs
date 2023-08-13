@@ -79,5 +79,47 @@ namespace PriceRater.DataAccess.Repositories
                 return false; 
             }
         }
+
+        public IEnumerable<ProductDTO> GetProducts()
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    connection.Open();
+
+                    var products = connection.Query<ProductDTO>("dbo.GetAllProducts", commandType: CommandType.StoredProcedure).ToList();
+
+                    return products; 
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return null;
+            }
+        }
+
+        public IEnumerable<UserCategoryDTO> GetCategoriesAndProducts(int userId)
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    connection.Open();
+
+                    var parameters = new { UserId = userId };
+
+                    var categories = connection.Query<UserCategoryDTO>("dbo.spGetCategoriesAndProductsForUser", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                    return categories;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return null;
+            }
+        }
     }
 }
