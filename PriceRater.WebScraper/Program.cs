@@ -9,6 +9,7 @@ using OpenQA.Selenium.Support.UI;
 using PriceRater.DataAccess.Interfaces;
 using PriceRater.DataAccess.Repositories;
 using PriceRater.DataAccess;
+using PriceRater.WebScraper.Utilities.Settings;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>
@@ -16,7 +17,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         config.SetBasePath(Directory.GetCurrentDirectory());
         config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
     })
-    .ConfigureServices(services =>
+    .ConfigureServices((hostingContext, services) =>
     {
         services.AddSingleton<Run>();
         services.AddTransient<IProductRepository, ProductRepository>();
@@ -40,6 +41,11 @@ using IHost host = Host.CreateDefaultBuilder(args)
             var configuration = provider.GetRequiredService<IConfiguration>();
             return new SqlConnectionFactory(configuration);
         });
+
+        // Sets up the configuration for the solution root
+        var configuration = hostingContext.Configuration;
+        var solutionRootConfiguration = configuration.GetSection("SolutionRoot").Value;
+        services.AddSingleton(new SolutionRootModel { SolutionRoot = solutionRootConfiguration });
     })
     .Build();
 

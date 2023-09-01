@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
-using PriceRater.WebScraper.Utilities.Exceptions;
 
 namespace PriceRater.WebScraper.Services
 {
     public class RetailerConfigurationProvider : IRetailerConfigurationProvider
     {
-        private readonly string? solutionRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
+        private readonly string _solutionRoot; 
         
-        public RetailerConfigurationProvider()
+        public RetailerConfigurationProvider(IConfiguration configuration)
         {
+            _solutionRoot = configuration["SolutionRoot"];
         }
 
         /// <summary>
@@ -18,30 +18,29 @@ namespace PriceRater.WebScraper.Services
         /// <returns></returns>
         public IConfiguration? GetRetailerConfiguration(string webAddress)
         {
-            string retailerName; 
-            var appSettingsInformation = GetConfiguration(solutionRoot, "appsettings.json");
+            var appSettingsInformation = GetConfiguration(_solutionRoot, "appsettings.json");
+            var retailerName = GetRetailerFromWebAddress(webAddress);
 
-            switch (webAddress)
+            var retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")[retailerName]!;
+            var retailerConfiguration = GetConfiguration(_solutionRoot, retailerConfigurationPath);
+
+            return retailerConfiguration;
+        }
+
+        /// <summary>
+        /// Gets the retailer name from the web address, for use with retrieving the correct retailer settings
+        /// </summary>
+        /// <param name="webAddress">Web address of product</param>
+        /// <returns>Value of retailer as a string</returns>
+        private string GetRetailerFromWebAddress(string webAddress)
+        {
+            return webAddress switch
             {
-                case string asdaAddress when asdaAddress.Contains("asda.com"):
-                    retailerName = "Asda";
-                    break;
-                case string aldiAddress when aldiAddress.Contains("aldi.co.uk"):
-                    retailerName = "Aldi";
-                    break;
-                case string morrisonsAddress when morrisonsAddress.Contains("morrisons.com"):
-                    retailerName = "Morrisons";
-                    break;
-                default:
-                    return null;
-            }
-
-            var retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")[retailerName];
-            var retailerConfiguration = GetConfiguration(solutionRoot, retailerConfigurationPath);
-
-            return retailerConfiguration is null
-                ? throw new RetailerConfigurationException($"Retailer configuration not found for: {webAddress}")
-                : retailerConfiguration;
+                string asdaAddress when asdaAddress.Contains("asda.com") => "Asda",
+                string aldiAddress when aldiAddress.Contains("aldi.co.uk") => "Aldi",
+                string morrisonsAddress when morrisonsAddress.Contains("morrisons.com") => "Morrisons",
+                _ => "Invalid",
+            };
         }
 
         /// <summary>
