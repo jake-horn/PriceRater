@@ -22,11 +22,14 @@ namespace PriceRater.WebScraper.Services
 
         public ProductDTO? ScrapeProductData(int webScraperId, string webAddress)
         {
+            var retailerConfig = _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
+
+            if (retailerConfig.Equals("Invalid"))
+                throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
+
             try
             {
-                var retailerConfig = _retailerConfigurationProvider.GetRetailerConfiguration(webAddress);
-
-                DealWithCookies(retailerConfig, webAddress);
+                CookiePopupHandler(retailerConfig, webAddress);
 
                 var productData = ExtractProductData(retailerConfig);
 
@@ -37,7 +40,7 @@ namespace PriceRater.WebScraper.Services
                     WebAddress = webAddress,
                     DateAdded = DateTime.Now,
                     DateUpdated = DateTime.Now,
-                    RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")),
+                    RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!),
                     WebScrapingId = webScraperId
                 };
             }
@@ -55,8 +58,8 @@ namespace PriceRater.WebScraper.Services
 
         private ProductData ExtractProductData(IConfiguration retailerConfig)
         {
-            string titleElement = retailerConfig.GetValue<string>("titleElement");
-            string priceElement = retailerConfig.GetValue<string>("priceElement");
+            var titleElement = retailerConfig.GetValue<string>("titleElement");
+            var priceElement = retailerConfig.GetValue<string>("priceElement");
 
             var title = _webDriver.FindElement(By.CssSelector(titleElement));
             var price = _webDriver.FindElement(By.CssSelector(priceElement));
@@ -71,9 +74,14 @@ namespace PriceRater.WebScraper.Services
             };
         }
 
-        private void DealWithCookies(IConfiguration retailerConfig, string webAddress)
+        /// <summary>
+        /// Deals with the cookie pop ups on retailer websites. 
+        /// </summary>
+        /// <param name="retailerConfig">IConfiguration of the retailer</param>
+        /// <param name="webAddress">Product web address</param>
+        private void CookiePopupHandler(IConfiguration retailerConfig, string webAddress)
         {
-            string cookiesPopUp = retailerConfig.GetValue<string>("cookiesPopUp");
+            var cookiesPopUp = retailerConfig.GetValue<string>("cookiesPopUp");
 
             _webDriver.Navigate().GoToUrl(webAddress);
             IList<IWebElement> elementList = _webDriver.FindElements(By.Id(cookiesPopUp));
