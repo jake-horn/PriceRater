@@ -1,14 +1,18 @@
-﻿using Microsoft.Extensions.Configuration;
-using PriceRater.WebScraper.Utilities.Exceptions;
+﻿using PriceRater.WebScraper.Utilities.Configuration;
+using PriceRater.WebScraper.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace PriceRater.WebScraper.Services
 {
     public class RetailerConfigurationProvider : IRetailerConfigurationProvider
     {
-        private readonly string? solutionRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?.Parent?.Parent?.Parent?.FullName;
+        private readonly string _solutionRoot;
+        private readonly IRetailerProvider _retailerProvider; 
         
-        public RetailerConfigurationProvider()
+        public RetailerConfigurationProvider(IConfiguration configuration, IRetailerProvider retailerProvider)
         {
+            _solutionRoot = configuration["SolutionRoot"]!;
+            _retailerProvider = retailerProvider;
         }
 
         /// <summary>
@@ -18,44 +22,12 @@ namespace PriceRater.WebScraper.Services
         /// <returns></returns>
         public IConfiguration? GetRetailerConfiguration(string webAddress)
         {
-            string retailerName; 
-            var appSettingsInformation = GetConfiguration(solutionRoot, "appsettings.json");
+            var appSettingsInformation = ConfigProvider.GetConfiguration(_solutionRoot, "appsettings.json");
+            var retailerName = _retailerProvider.GetRetailerFromWebAddress(webAddress);
 
-            switch (webAddress)
-            {
-                case string asdaAddress when asdaAddress.Contains("asda.com"):
-                    retailerName = "Asda";
-                    break;
-                case string aldiAddress when aldiAddress.Contains("aldi.co.uk"):
-                    retailerName = "Aldi";
-                    break;
-                case string morrisonsAddress when morrisonsAddress.Contains("morrisons.com"):
-                    retailerName = "Morrisons";
-                    break;
-                default:
-                    return null;
-            }
+            var retailerConfigurationPath = appSettingsInformation[$"RetailerConfigurationPath:{retailerName}"]!;
 
-            var retailerConfigurationPath = appSettingsInformation.GetSection("RetailerConfigurationPath")[retailerName];
-            var retailerConfiguration = GetConfiguration(solutionRoot, retailerConfigurationPath);
-
-            return retailerConfiguration is null
-                ? throw new RetailerConfigurationException($"Retailer configuration not found for: {webAddress}")
-                : retailerConfiguration;
-        }
-
-        /// <summary>
-        /// Returns the configuration for the retailer depending on the file path provided in the parameter
-        /// </summary>
-        /// <param name="solutionRoot">Root of the solution, to locate the json file</param>
-        /// <param name="jsonFilePath">File path for the json configuration</param>
-        /// <returns></returns>
-        private IConfiguration GetConfiguration(string solutionRoot, string jsonFilePath)
-        {
-            return new ConfigurationBuilder()
-                .SetBasePath(solutionRoot)
-                .AddJsonFile(jsonFilePath, optional: false, reloadOnChange: true)
-                .Build();
+            return ConfigProvider.GetConfiguration(_solutionRoot, retailerConfigurationPath);
         }
     }
 }

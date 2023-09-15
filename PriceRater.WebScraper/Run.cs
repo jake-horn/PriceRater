@@ -1,16 +1,16 @@
 ﻿
 using PriceRater.DataAccess.Interfaces;
-using PriceRater.WebScraper.Services;
+using PriceRater.WebScraper.Interfaces;
 
 namespace PriceRater.WebScraper
 {
     public class Run
     {
         private readonly IWebAddressProviderService _webAddressProviderService;
-        private readonly IDataScraper _dataScraper;
+        private readonly IProductProviderService _dataScraper;
         private readonly IProductRepository _productRepository;
 
-        public Run(IWebAddressProviderService webAddressProviderService, IDataScraper dataScraper, IProductRepository productRepository)
+        public Run(IWebAddressProviderService webAddressProviderService, IProductProviderService dataScraper, IProductRepository productRepository)
         {
             _webAddressProviderService = webAddressProviderService;
             _dataScraper = dataScraper;
@@ -23,7 +23,7 @@ namespace PriceRater.WebScraper
 
             foreach (var address in webAddresses)
             {
-                var scrapedData = _dataScraper.ScrapeProductData(address.Key, address.Value);
+                var scrapedData = _dataScraper.GetProductData(address.Key, address.Value);
 
                 if (scrapedData is not null)
                 {

@@ -8,7 +8,7 @@ namespace PriceRater.WebScraper.Models
 {
     public class ProductData
     {
-        public string Title { get; set; }
+        public string Title { get; set; } = String.Empty;
         public decimal Price { get; set; }
     }
 }
