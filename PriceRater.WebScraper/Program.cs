@@ -10,6 +10,9 @@ using PriceRater.DataAccess.Interfaces;
 using PriceRater.DataAccess.Repositories;
 using PriceRater.DataAccess;
 using PriceRater.WebScraper.Utilities.Settings;
+using PriceRater.WebScraper.Interfaces;
+using PriceRater.WebScraper.Retailers.Retailers;
+using PriceRater.WebScraper.Retailers;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>
@@ -23,6 +26,12 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IProductRepository, ProductRepository>();
         services.AddTransient<IWebAddressProviderService, WebAddressProviderService>();
         services.AddTransient<IDataScraper, DataScraper>();
+
+        // Retailers are added here
+        services.AddTransient<IRetailer, AldiRetailer>();
+        services.AddTransient<IRetailer, AsdaRetailer>();
+        services.AddTransient<IRetailer, MorrisonsRetailer>();
+        services.AddTransient<IRetailerProvider, RetailerProvider>();
 
         services.AddSingleton<IWebDriver>(provider =>
         {

@@ -1,6 +1,7 @@
 ﻿using PriceRater.DataAccess;
 using Dapper; 
 using System.Data;
+using PriceRater.WebScraper.Interfaces;
 
 namespace PriceRater.WebScraper.Services
 {

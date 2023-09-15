@@ -25,10 +25,11 @@ namespace PriceRater.API
                 options.AddPolicy(name: apiCorsPolicy,
                     policy =>
                     {
-                        policy.WithOrigins(new[] { "http://localhost:5500", "https://localhost:5500" });
+                        /*policy.WithOrigins(new[] { "http://localhost:5500", "https://localhost:5500" });
                         policy.AllowAnyHeader();
                         policy.AllowAnyMethod();
-                        policy.AllowCredentials();
+                        policy.AllowCredentials();*/
+                        policy.AllowAnyOrigin();
                     });
             });
 

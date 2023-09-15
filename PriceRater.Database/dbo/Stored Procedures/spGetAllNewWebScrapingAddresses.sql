@@ -16,6 +16,6 @@ BEGIN
 	    wsl.WebAddress
 	FROM dbo.WebScrapingList AS wsl
 	LEFT JOIN dbo.Product AS p ON wsl.Id = p.WebScrapingId
-	WHERE p.WebScrapingID IS NULL
+	WHERE p.WebScrapingId IS NULL
 
 END

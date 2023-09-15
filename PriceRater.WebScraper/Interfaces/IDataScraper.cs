@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PriceRater.WebScraper.Services
+namespace PriceRater.WebScraper.Interfaces
 {
     public interface IDataScraper
     {

@@ -2,8 +2,9 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using PriceRater.DataAccess.DTO;
+using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Models;
-using PriceRater.WebScraper.Utilities.Exceptions; 
+using PriceRater.WebScraper.Utilities.Exceptions;
 
 namespace PriceRater.WebScraper.Services
 {

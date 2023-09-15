@@ -1,6 +1,6 @@
 ﻿
 using PriceRater.DataAccess.Interfaces;
-using PriceRater.WebScraper.Services;
+using PriceRater.WebScraper.Interfaces;
 
 namespace PriceRater.WebScraper
 {
