@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PriceRater.WebScraper.Interfaces
 {
-    public interface IProductDataProvider
+    public interface IProductScraperService
     {
         ProductData ProvideProductData(IConfiguration retailerConfig, string webAddress);
     }

@@ -25,8 +25,8 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<Run>();
         services.AddTransient<IProductRepository, ProductRepository>();
         services.AddTransient<IWebAddressProviderService, WebAddressProviderService>();
-        services.AddTransient<IDataScraper, DataScraper>();
-        services.AddTransient<IProductDataProvider, ProductDataProvider>();
+        services.AddTransient<IProductProviderService, ProductProviderService>();
+        services.AddTransient<IProductScraperService, ProductScraperService>();
 
         // Retailers are added here
         services.AddTransient<IRetailer, AldiRetailer>();

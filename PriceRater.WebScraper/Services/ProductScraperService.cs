@@ -6,12 +6,12 @@ using PriceRater.WebScraper.Models;
 
 namespace PriceRater.WebScraper.Services
 {
-    public class ProductDataProvider : IProductDataProvider
+    public class ProductScraperService : IProductScraperService
     {
         private readonly IWebDriver _webDriver;
         private readonly WebDriverWait _webDriverWait;
 
-        public ProductDataProvider(IWebDriver webDriver, WebDriverWait webDriverWait)
+        public ProductScraperService(IWebDriver webDriver, WebDriverWait webDriverWait)
         {
             _webDriver = webDriver;
             _webDriverWait = webDriverWait;

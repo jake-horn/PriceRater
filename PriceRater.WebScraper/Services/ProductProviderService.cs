@@ -5,18 +5,18 @@ using PriceRater.WebScraper.Utilities.Exceptions;
 
 namespace PriceRater.WebScraper.Services
 {
-    public class DataScraper : IDataScraper
+    public class ProductProviderService : IProductProviderService
     {
         private readonly IRetailerConfigurationProvider _retailerConfigurationProvider;
-        private readonly IProductDataProvider _productDataProvider;
+        private readonly IProductScraperService _productDataProvider;
 
-        public DataScraper(IRetailerConfigurationProvider retailerConfigurationProvider, IProductDataProvider productDataProvider)
+        public ProductProviderService(IRetailerConfigurationProvider retailerConfigurationProvider, IProductScraperService productDataProvider)
         {
             _retailerConfigurationProvider = retailerConfigurationProvider;
             _productDataProvider = productDataProvider;
         }
 
-        public ProductDTO? ScrapeProductData(int webScraperId, string webAddress)
+        public ProductDTO? GetProductData(int webScraperId, string webAddress)
         {
             var retailerConfig = _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
 

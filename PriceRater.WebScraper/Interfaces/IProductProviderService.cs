@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace PriceRater.WebScraper.Interfaces
 {
-    public interface IDataScraper
+    public interface IProductProviderService
     {
-        public ProductDTO? ScrapeProductData(int webScraperId, string webAddress);
+        public ProductDTO? GetProductData(int webScraperId, string webAddress);
     }
 }
