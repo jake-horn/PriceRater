@@ -34,6 +34,8 @@ namespace PriceRater.WebScraper.Services
         /// <param name="webAddress">Product web address</param>
         private ProductData ExtractProductData(IConfiguration retailerConfig, string webAddress)
         {
+            decimal? clubcardPriceDecimal = null; 
+
             CookiePopupHandler(retailerConfig, webAddress);
 
             var titleElement = retailerConfig.GetValue<string>("titleElement");
@@ -45,10 +47,20 @@ namespace PriceRater.WebScraper.Services
             string priceTrimmed = new(String.Concat(price.Text.Where(x => x == '.' || Char.IsDigit(x))));
             decimal priceDecimal = Decimal.Parse(priceTrimmed);
 
+            if (webAddress.Contains("tesco.com"))
+            {
+                var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement");
+                var clubcardPrice = _webDriver.FindElement(By.CssSelector(clubcardElement));
+
+                string clubcardPriceTrimmed = new(String.Concat(clubcardPrice.Text.Where(x => x == '.' || Char.IsDigit(x))));
+                clubcardPriceDecimal = Decimal.Parse(clubcardPriceTrimmed);
+            }
+
             return new ProductData()
             {
                 Title = title.Text,
-                Price = priceDecimal
+                Price = priceDecimal,
+                ClubcardPrice = clubcardPriceDecimal
             };
         }
 

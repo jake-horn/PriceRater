@@ -1,7 +1,7 @@
 {
   "retailerId": "4",
   "cookiesPopUp": "base-components__BaseElement-sc-1mosoyj-0 styled__TextSpan-rsekm1-4 oznwo GDiMp beans-button__text",
-  "titleElement": "product-details-tile__title",
-  "priceElement": "value", 
-  "clubcardPriceElement":  "offer-text"
+  "titleElement": ".product-details-tile__title",
+  "priceElement": "div[class='price-per-sellable-unit price-per-sellable-unit--price price-per-sellable-unit--price-per-item'] div span[class='value']",
+  "clubcardPriceElement": "div[class='promotions-wrapper hidden-small hidden-medium-small-only'] span[class='offer-text']"
 }

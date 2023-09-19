@@ -10,5 +10,6 @@ namespace PriceRater.WebScraper.Models
     {
         public string Title { get; set; } = String.Empty;
         public decimal Price { get; set; }
+        public decimal? ClubcardPrice { get; set; } = null;
     }
 }
