@@ -32,6 +32,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IRetailer, AldiRetailer>();
         services.AddTransient<IRetailer, AsdaRetailer>();
         services.AddTransient<IRetailer, MorrisonsRetailer>();
+        services.AddTransient<IRetailer, TescoRetailer>();
         services.AddTransient<IRetailerProvider, RetailerProvider>();
 
         services.AddSingleton<IWebDriver>(provider =>

@@ -6,6 +6,7 @@
 CREATE PROCEDURE [dbo].[spUpdateExistingProduct] 
 	@Title NVARCHAR(500), 
 	@Price DECIMAL(7,2), 
+	@ClubcardPrice DECIMAL(7,2) = NULL, 
 	@WebAddress NVARCHAR(500), 
 	@DateAdded DATETIME2, 
 	@DateUpdated DATETIME2, 
@@ -21,10 +22,11 @@ BEGIN
 	SET
 		Title = @Title,
 		Price = @Price,
+		ClubcardPrice = @ClubcardPrice, 
 		DateUpdated = @DateUpdated
 	WHERE WebScrapingId = @WebScrapingId
 
 	-- Add updated product into the dbo.PriceHistory
-	EXEC dbo.spAddNewProductToPriceHistory @Title, @Price, @WebAddress, @DateAdded, @RetailerId, @WebScrapingId
+	EXEC dbo.spAddNewProductToPriceHistory @Title, @Price, @ClubcardPrice, @WebAddress, @DateAdded, @RetailerId, @WebScrapingId
 		
 END

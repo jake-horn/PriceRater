@@ -1,12 +1,12 @@
 ﻿namespace PriceRater.WebScraper.Retailers.Retailers
 {
-    public class AldiRetailer : RetailerBase
+    public class TescoRetailer : RetailerBase
     {
-        public override string RetailerName => "Aldi";
+        public override string RetailerName => "Tesco";
 
         public override bool MatchedAddress(string webAddress)
         {
-            return webAddress.Contains("aldi.co.uk");
+            return webAddress.Contains("tesco.com");
         }
     }
 }

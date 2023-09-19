@@ -1,17 +1,10 @@
-﻿using PriceRater.WebScraper.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PriceRater.WebScraper.Retailers.Retailers
+﻿namespace PriceRater.WebScraper.Retailers.Retailers
 {
-    public class MorrisonsRetailer : IRetailer
+    public class MorrisonsRetailer : RetailerBase
     {
-        public string RetailerName => "Morrisons";
+        public override string RetailerName => "Morrisons";
 
-        public bool MatchedAddress(string webAddress)
+        public override bool MatchedAddress(string webAddress)
         {
             return webAddress.Contains("morrisons.com");
         }

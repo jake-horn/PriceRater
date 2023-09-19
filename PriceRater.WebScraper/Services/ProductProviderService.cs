@@ -31,6 +31,7 @@ namespace PriceRater.WebScraper.Services
                 {
                     Title = productData.Title,
                     Price = productData.Price,
+                    ClubcardPrice = productData.ClubcardPrice,
                     WebAddress = webAddress,
                     DateAdded = DateTime.Now,
                     DateUpdated = DateTime.Now,
