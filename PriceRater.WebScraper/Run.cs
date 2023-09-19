@@ -19,11 +19,7 @@ namespace PriceRater.WebScraper
 
         public void StartProgram()
         {
-            //IDictionary<int, string> webAddresses = _webAddressProviderService.GetWebAddresses();
-            IDictionary<int, string> webAddresses = new Dictionary<int, string>() 
-            {
-                { 67, "https://www.tesco.com/groceries/en-GB/products/313834076" } 
-            };
+            IDictionary<int, string> webAddresses = _webAddressProviderService.GetWebAddresses();
 
             foreach (var address in webAddresses)
             {
