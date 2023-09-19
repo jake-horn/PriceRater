@@ -7,6 +7,7 @@ CREATE PROCEDURE [dbo].[spAddNewProductToPriceHistory]
 	-- Add the parameters for the stored procedure here
 	@Title NVARCHAR(500), 
 	@Price DECIMAL(7,2), 
+	@ClubcardPrice DECIMAL(7,2),
 	@WebAddress NVARCHAR(500), 
 	@DateAdded DATETIME2,  
 	@RetailerId INT, 
@@ -21,6 +22,7 @@ BEGIN
 	(
 		Title, 
 		Price, 
+		ClubcardPrice,
 		WebAddress, 
 		DateAdded,  
 		RetailerId, 
@@ -30,6 +32,7 @@ BEGIN
 	(
 		@Title, 
 		@Price, 
+		@ClubcardPrice, 
 		@WebAddress, 
 		@DateAdded, 
 		@RetailerId, 
