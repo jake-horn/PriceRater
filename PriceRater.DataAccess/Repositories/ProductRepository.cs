@@ -80,6 +80,30 @@ namespace PriceRater.DataAccess.Repositories
             }
         }
 
+        public int GetWebScrapingId(string webAddress)
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    var parameters = new { WebAddress = webAddress };
+
+                    connection.Open();
+
+                    int webScrapingId = connection.QueryFirst<int>("dbo.spGetOrAddWebScrapingId", parameters, commandType: CommandType.StoredProcedure);
+
+                    connection.Close();
+
+                    return webScrapingId;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return -1;
+            }
+        }
+
         public IEnumerable<ProductDTO> GetProducts()
         {
             try
