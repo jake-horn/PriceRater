@@ -9,6 +9,6 @@ namespace PriceRater.WebScraper.Interfaces
 {
     public interface IProductProviderService
     {
-        public ProductDTO? GetProductData(int webScraperId, string webAddress);
+        public ProductDTO? GetProductData(string webAddress);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PriceRater.DataAccess.DTO;
+using PriceRater.DataAccess.Interfaces;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Utilities.Exceptions;
 
@@ -9,14 +10,18 @@ namespace PriceRater.WebScraper.Services
     {
         private readonly IRetailerConfigurationProvider _retailerConfigurationProvider;
         private readonly IProductScraperService _productDataProvider;
+        private readonly IProductRepository _productRepository;
 
-        public ProductProviderService(IRetailerConfigurationProvider retailerConfigurationProvider, IProductScraperService productDataProvider)
+        public ProductProviderService(IRetailerConfigurationProvider retailerConfigurationProvider, 
+                                      IProductScraperService productDataProvider, 
+                                      IProductRepository productRepository)
         {
             _retailerConfigurationProvider = retailerConfigurationProvider;
             _productDataProvider = productDataProvider;
+            _productRepository = productRepository;
         }
 
-        public ProductDTO? GetProductData(int webScraperId, string webAddress)
+        public ProductDTO? GetProductData(string webAddress)
         {
             var retailerConfig = _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
 
@@ -36,7 +41,7 @@ namespace PriceRater.WebScraper.Services
                     DateAdded = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!),
-                    WebScrapingId = webScraperId
+                    WebScrapingId = _productRepository.GetWebScrapingId(webAddress)
                 };
             }
             catch (RetailerConfigurationException ex)
