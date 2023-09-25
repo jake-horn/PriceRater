@@ -9,6 +9,5 @@
         public DateTime DateAdded { get; set; }
         public DateTime DateUpdated { get; set; }
         public int RetailerId { get; set; }
-        public int? WebScrapingId { get; set; } = null;
     }
 }
