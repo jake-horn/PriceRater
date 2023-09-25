@@ -11,8 +11,7 @@ CREATE PROCEDURE [dbo].[spAddProduct]
 	@WebAddress NVARCHAR(500), 
 	@DateAdded DATETIME2, 
 	@DateUpdated DATETIME2, 
-	@RetailerId INT, 
-	@WebScrapingId INT
+	@RetailerId INT
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -27,8 +26,7 @@ BEGIN
 		WebAddress, 
 		DateAdded, 
 		DateUpdated, 
-		RetailerId, 
-		WebScrapingId
+		RetailerId
 	)
 	VALUES
 	(
@@ -38,8 +36,7 @@ BEGIN
 		@WebAddress, 
 		@DateAdded, 
 		@DateUpdated, 
-		@RetailerId, 
-		@WebScrapingId
+		@RetailerId
 	)
 
 	EXEC dbo.spAddNewProductToPriceHistory
@@ -48,7 +45,6 @@ BEGIN
 		@ClubcardPrice = @ClubcardPrice, 
 		@WebAddress = @WebAddress, 
 		@DateAdded = @DateAdded, 
-		@RetailerId = @RetailerId, 
-		@WebScrapingId = @WebScrapingId
+		@RetailerId = @RetailerId
 
 END

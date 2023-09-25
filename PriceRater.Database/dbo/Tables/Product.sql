@@ -7,11 +7,12 @@
     [DateAdded]     DATETIME2 (7)  NOT NULL,
     [DateUpdated]   DATETIME2 (7)  NULL,
     [RetailerId]    INT            NOT NULL,
-    [WebScrapingId] INT            NOT NULL,
     CONSTRAINT [PK__Product__3214EC0764F62EB7] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [RetailerId_FK] FOREIGN KEY ([RetailerId]) REFERENCES [dbo].[Retailer] ([Id]),
-    CONSTRAINT [WebScrapingId_FK] FOREIGN KEY ([WebScrapingId]) REFERENCES [dbo].[WebScrapingList] ([Id])
+    CONSTRAINT [Unique_Web_Address] UNIQUE NONCLUSTERED ([WebAddress] ASC)
 );
+
+
 
 
 

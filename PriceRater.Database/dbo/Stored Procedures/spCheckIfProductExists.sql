@@ -3,9 +3,9 @@
 -- Create date: 19th July 2023
 -- Description:	Checks if a product exists in dbo.Product, returns as a bit value
 -- =============================================
-CREATE PROCEDURE dbo.spCheckIfProductExists
+CREATE PROCEDURE [dbo].[spCheckIfProductExists]
 	-- Add the parameters for the stored procedure here
-	@WebScrapingId INT
+	@WebAddress INT
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -14,7 +14,7 @@ BEGIN
 
     SELECT CASE WHEN EXISTS 
 		(SELECT 1 FROM dbo.Product 
-		WHERE WebScrapingId = @WebScrapingId)
+		WHERE WebAddress = @WebAddress)
 	THEN CAST (1 AS BIT) 
 	ELSE CAST (0 AS BIT) 
 	END
