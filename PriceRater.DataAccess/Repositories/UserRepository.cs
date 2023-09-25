@@ -1,13 +1,7 @@
 ﻿using Dapper;
 using PriceRater.Common.Models;
 using PriceRater.DataAccess.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PriceRater.DataAccess.Repositories
 {

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using PriceRater.Common.Models;
 using PriceRater.DataAccess.DTO;
 using PriceRater.DataAccess.Interfaces;
 using System.Data;
@@ -53,54 +54,6 @@ namespace PriceRater.DataAccess.Repositories
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
-            }
-        }
-
-        public bool DoesProductExist(ProductDTO product)
-        {
-            try
-            {
-                using (var connection = _connectionFactory.CreateConnection())
-                {
-                    var parameters = new { WebScrapingId = product.WebScrapingId };
-
-                    connection.Open();
-
-                    bool doesProductExist = connection.QuerySingle<bool>("dbo.spCheckIfProductExists", parameters, commandType: CommandType.StoredProcedure);
-
-                    connection.Close();
-
-                    return doesProductExist; 
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-                return false; 
-            }
-        }
-
-        public int GetWebScrapingId(string webAddress)
-        {
-            try
-            {
-                using (var connection = _connectionFactory.CreateConnection())
-                {
-                    var parameters = new { WebAddress = webAddress };
-
-                    connection.Open();
-
-                    int webScrapingId = connection.QueryFirst<int>("dbo.spGetOrAddWebScrapingId", parameters, commandType: CommandType.StoredProcedure);
-
-                    connection.Close();
-
-                    return webScrapingId;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-                return -1;
             }
         }
 
