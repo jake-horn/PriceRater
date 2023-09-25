@@ -1,4 +1,4 @@
-﻿using PriceRater.DataAccess.DTO;
+﻿using PriceRater.Common.Models; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
