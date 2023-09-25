@@ -86,5 +86,6 @@
     <Build Include="dbo\Views\GetUserCategoriesAndProducts.sql" />
     <Build Include="dbo\Stored Procedures\spGetCategoriesAndProductsForUser.sql" />
     <Build Include="dbo\Stored Procedures\GetAllProducts.sql" />
+    <Build Include="dbo\Stored Procedures\spGetOrAddWebScrapingId.sql" />
   </ItemGroup>
 </Project>

@@ -13,6 +13,7 @@ using PriceRater.WebScraper.Utilities.Settings;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Retailers.Retailers;
 using PriceRater.WebScraper.Retailers;
+using Microsoft.AspNetCore.Hosting;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>
@@ -24,9 +25,9 @@ using IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton<Run>();
         services.AddTransient<IProductRepository, ProductRepository>();
-        services.AddTransient<IWebAddressProviderService, WebAddressProviderService>();
-        services.AddTransient<IProductProviderService, ProductProviderService>();
         services.AddTransient<IProductScraperService, ProductScraperService>();
+        services.AddTransient<IProductProviderService, ProductProviderService>();
+        services.AddTransient<IScraperController, ScraperController>();
 
         // Retailers are added here
         services.AddTransient<IRetailer, AldiRetailer>();
@@ -35,10 +36,12 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IRetailer, TescoRetailer>();
         services.AddTransient<IRetailerProvider, RetailerProvider>();
 
-        services.AddSingleton<IWebDriver>(provider =>
+        /*services.AddSingleton<IWebDriver>(provider =>
         {
             return new ChromeDriver();
-        });
+        });*/
+
+        services.AddSingleton<IWebDriver, ChromeDriver>();
 
         services.AddSingleton(provider =>
         {
@@ -58,10 +61,15 @@ using IHost host = Host.CreateDefaultBuilder(args)
         var solutionRootConfiguration = configuration.GetSection("SolutionRoot").Value;
         services.AddSingleton(new SolutionRootModel { SolutionRoot = solutionRootConfiguration });
     })
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.UseStartup<Startup>();
+        webBuilder.UseUrls("http://127.0.0.1:5000");
+    })
     .Build();
 
 var run = host.Services.GetRequiredService<Run>();
 
-run.StartProgram(); 
+//run.ExecuteProgram();
 
 await host.RunAsync(); 

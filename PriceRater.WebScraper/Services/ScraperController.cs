@@ -1,4 +1,5 @@
-﻿using PriceRater.DataAccess.Interfaces;
+﻿using PriceRater.DataAccess.DTO;
+using PriceRater.DataAccess.Interfaces;
 using PriceRater.WebScraper.Interfaces;
 
 namespace PriceRater.WebScraper.Services
@@ -14,11 +15,19 @@ namespace PriceRater.WebScraper.Services
             _productRepository = productRepository;
         }
 
-        public void ScrapeSingleProduct(string webAddress)
+        public void ScrapeMultipleProducts(IEnumerable<string> webAddresses)
         {
-            var scrapedData = _productProviderService.GetProductData(webAddress);
+            foreach(var webAddress in webAddresses)
+            {
+                ScrapeProduct(webAddress);
+            }
+        }
 
-            if (scrapedData is not null)
+        public ProductDTO ScrapeProduct(string webAddress)
+        {
+            return _productProviderService.GetProductData(webAddress);
+
+            /*if (scrapedData is not null)
             {
                 if (_productRepository.DoesProductExist(scrapedData))
                 {
@@ -28,15 +37,7 @@ namespace PriceRater.WebScraper.Services
                 {
                     _productRepository.AddProduct(scrapedData);
                 }
-            }
-        }
-
-        public void ScrapeMultipleProduct(IEnumerable<string> webAddresses)
-        {
-            foreach(var webAddress in webAddresses)
-            {
-                ScrapeSingleProduct(webAddress);
-            }
+            }*/
         }
     }
 }
