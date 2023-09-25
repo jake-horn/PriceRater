@@ -34,34 +34,43 @@ namespace PriceRater.WebScraper.Services
         /// <param name="webAddress">Product web address</param>
         private ProductData ExtractProductData(IConfiguration retailerConfig, string webAddress)
         {
-            decimal? clubcardPriceDecimal = null; 
+            var productData = new ProductData();
 
             CookiePopupHandler(retailerConfig, webAddress);
 
             var titleElement = retailerConfig.GetValue<string>("titleElement");
             var priceElement = retailerConfig.GetValue<string>("priceElement");
 
-            var title = _webDriver.FindElement(By.CssSelector(titleElement));
-            var price = _webDriver.FindElement(By.CssSelector(priceElement));
-
-            string priceTrimmed = new(String.Concat(price.Text.Where(x => x == '.' || Char.IsDigit(x))));
-            decimal priceDecimal = Decimal.Parse(priceTrimmed);
-
             if (webAddress.Contains("tesco.com"))
             {
                 var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement");
-                var clubcardPrice = _webDriver.FindElement(By.CssSelector(clubcardElement));
-
-                string clubcardPriceTrimmed = new(String.Concat(clubcardPrice.Text.Where(x => x == '.' || Char.IsDigit(x))));
-                clubcardPriceDecimal = Decimal.Parse(clubcardPriceTrimmed);
+                var clubcardPriceDecimal = ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
+                productData.ClubcardPrice = clubcardPriceDecimal;
             }
 
-            return new ProductData()
-            {
-                Title = title.Text,
-                Price = priceDecimal,
-                ClubcardPrice = clubcardPriceDecimal
-            };
+            productData.Price = ReturnDecimalPriceFromString(GetElementTextByCssSelector(priceElement));
+            productData.Title = GetElementTextByCssSelector(titleElement).Text;
+
+            return productData;
+        }
+
+        /// <summary>
+        /// Helper method to return the element text from a selector
+        /// </summary>
+        private IWebElement GetElementTextByCssSelector(string selectorText)
+        {
+            return _webDriver.FindElement(By.CssSelector(selectorText));
+        }
+
+        /// <summary>
+        /// Functionality for returning the decimal value of the price scraped from the website. 
+        /// </summary>
+        /// <param name="price">An IWebElement consisting of the scraped price</param>
+        /// <returns></returns>
+        private decimal ReturnDecimalPriceFromString(IWebElement price)
+        {
+            string priceTrimmed = new(String.Concat(price.Text.Where(x => x == '.' || Char.IsDigit(x))));
+            return Decimal.Parse(priceTrimmed);
         }
 
         /// <summary>

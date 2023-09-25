@@ -1,14 +1,10 @@
-﻿using PriceRater.DataAccess.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using PriceRater.Common.Models;
 
 namespace PriceRater.WebScraper.Interfaces
 {
     public interface IProductProviderService
     {
-        public ProductDTO? GetProductData(int webScraperId, string webAddress);
+        public ProductDTO? GetProductData(string webAddress);
     }
 }

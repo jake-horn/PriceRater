@@ -32,7 +32,7 @@ namespace PriceRater.API
                         policy.AllowAnyOrigin();
                     });
             });
-
+          
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
