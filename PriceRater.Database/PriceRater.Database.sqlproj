@@ -67,14 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spAddProduct.sql" />
-    <Build Include="dbo\Stored Procedures\spGetAllWebScrapingAddresses.sql" />
     <Build Include="dbo\Tables\Category.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\Retailer.sql" />
-    <Build Include="dbo\Tables\WebScrapingList.sql" />
     <Build Include="dbo\Tables\PriceHistory.sql" />
     <Build Include="dbo\Stored Procedures\spAddNewProductToPriceHistory.sql" />
-    <Build Include="dbo\Stored Procedures\spGetAllNewWebScrapingAddresses.sql" />
     <Build Include="dbo\Stored Procedures\spUpdateExistingProduct.sql" />
     <Build Include="dbo\Stored Procedures\spCheckIfProductExists.sql" />
     <Build Include="auth\Tables\Users.sql" />
@@ -86,6 +83,5 @@
     <Build Include="dbo\Views\GetUserCategoriesAndProducts.sql" />
     <Build Include="dbo\Stored Procedures\spGetCategoriesAndProductsForUser.sql" />
     <Build Include="dbo\Stored Procedures\GetAllProducts.sql" />
-    <Build Include="dbo\Stored Procedures\spGetOrAddWebScrapingId.sql" />
   </ItemGroup>
 </Project>
