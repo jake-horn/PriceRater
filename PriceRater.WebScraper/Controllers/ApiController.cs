@@ -25,5 +25,15 @@ namespace PriceRater.WebScraper.Controllers
 
             return Ok(scrapeData);
         }
+
+        [HttpPost("scrapemultipleproducts")]
+        public IActionResult ScrapeMultipleProducts([FromBody] string webAddresses) 
+        {
+            IEnumerable<string> webAddressList = webAddresses.Split(',').ToList();
+
+            var scrapedAddresses = _scraperController.ScrapeMultipleProducts(webAddressList);
+
+            return Ok(scrapedAddresses);
+        }
     }
 }

@@ -6,9 +6,6 @@ using PriceRater.WebScraper.Services;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using PriceRater.DataAccess.Interfaces;
-using PriceRater.DataAccess.Repositories;
-using PriceRater.DataAccess;
 using PriceRater.WebScraper.Utilities.Settings;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Retailers.Retailers;
@@ -24,7 +21,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostingContext, services) =>
     {
         services.AddSingleton<Run>();
-        services.AddTransient<IProductRepository, ProductRepository>();
         services.AddTransient<IProductScraperService, ProductScraperService>();
         services.AddTransient<IProductProviderService, ProductProviderService>();
         services.AddTransient<IScraperController, ScraperController>();
@@ -36,11 +32,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IRetailer, TescoRetailer>();
         services.AddTransient<IRetailerProvider, RetailerProvider>();
 
-        /*services.AddSingleton<IWebDriver>(provider =>
-        {
-            return new ChromeDriver();
-        });*/
-
         services.AddSingleton<IWebDriver, ChromeDriver>();
 
         services.AddSingleton(provider =>
@@ -50,11 +41,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
         });
 
         services.AddTransient<IRetailerConfigurationProvider, RetailerConfigurationProvider>();
-        services.AddSingleton<IDbConnectionFactory>(provider =>
-        {
-            var configuration = provider.GetRequiredService<IConfiguration>();
-            return new SqlConnectionFactory(configuration);
-        });
 
         // Sets up the configuration for the solution root
         var configuration = hostingContext.Configuration;
@@ -69,7 +55,5 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .Build();
 
 var run = host.Services.GetRequiredService<Run>();
-
-//run.ExecuteProgram();
 
 await host.RunAsync(); 

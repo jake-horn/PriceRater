@@ -11,6 +11,6 @@ namespace PriceRater.WebScraper.Interfaces
     {
         public ProductDTO ScrapeProduct(string webAddress);
 
-        public void ScrapeMultipleProducts(IEnumerable<string> webAddresses);
+        public IEnumerable<ProductDTO> ScrapeMultipleProducts(IEnumerable<string> webAddresses);
     }
 }
