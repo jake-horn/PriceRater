@@ -1,9 +1,5 @@
-﻿using PriceRater.DataAccess.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PriceRater.Common.Models;
+using PriceRater.DataAccess.DTO;
 
 namespace PriceRater.DataAccess.Interfaces
 {
@@ -13,12 +9,8 @@ namespace PriceRater.DataAccess.Interfaces
 
         public void UpdateProduct(ProductDTO product);
 
-        public bool DoesProductExist(ProductDTO product);
-
         public IEnumerable<ProductDTO> GetProducts();
 
         public IEnumerable<UserCategoryDTO> GetCategoriesAndProducts(int userId);
-
-        public int GetWebScrapingId(string webAddress);
     }
 }
