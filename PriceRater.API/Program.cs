@@ -4,8 +4,6 @@ using PriceRater.DataAccess.Repositories;
 using Microsoft.Extensions.Hosting;
 using PriceRater.API.Authentication.Helpers;
 using Microsoft.AspNetCore.Cors.Infrastructure;
-using PriceRater.WebScraper.Interfaces;
-using PriceRater.WebScraper.Services;
 
 namespace PriceRater.API
 {
