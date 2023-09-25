@@ -20,7 +20,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((hostingContext, services) =>
     {
-        services.AddSingleton<Run>();
         services.AddTransient<IProductScraperService, ProductScraperService>();
         services.AddTransient<IProductProviderService, ProductProviderService>();
         services.AddTransient<IScraperController, ScraperController>();
@@ -53,7 +52,5 @@ using IHost host = Host.CreateDefaultBuilder(args)
         webBuilder.UseUrls("http://127.0.0.1:5000");
     })
     .Build();
-
-var run = host.Services.GetRequiredService<Run>();
 
 await host.RunAsync(); 

@@ -1,4 +1,4 @@
-﻿namespace PriceRater.DataAccess.DTO
+﻿namespace PriceRater.Common.Models
 {
     public class ProductDTO
     {

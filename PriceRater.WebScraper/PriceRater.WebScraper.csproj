@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PriceRater.DataAccess\PriceRater.DataAccess.csproj" />
+    <ProjectReference Include="..\PriceRater.Common\PriceRater.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

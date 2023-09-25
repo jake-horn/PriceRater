@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using PriceRater.DataAccess.DTO;
-using PriceRater.DataAccess.Interfaces;
+using PriceRater.Common.Models;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Utilities.Exceptions;
 
