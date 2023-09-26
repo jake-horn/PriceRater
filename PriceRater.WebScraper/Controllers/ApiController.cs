@@ -29,6 +29,11 @@ namespace PriceRater.WebScraper.Controllers
         [HttpPost("scrapemultipleproducts")]
         public IActionResult ScrapeMultipleProducts([FromBody] string webAddresses) 
         {
+            if (webAddresses == null)
+            {
+                return BadRequest("null value passed");
+            }
+
             IEnumerable<string> webAddressList = webAddresses.Split(',').ToList();
 
             var scrapedAddresses = _scraperController.ScrapeMultipleProducts(webAddressList);
