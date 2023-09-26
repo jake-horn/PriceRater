@@ -21,6 +21,17 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((hostingContext, services) =>
     {
+        services.AddLogging(builder =>
+        {
+            var logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File("C:/Users/spawn/Desktop/log.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            builder.AddSerilog(logger);
+        });
+
+
         services.AddTransient<IProductScraperService, ProductScraperService>();
         services.AddTransient<IProductProviderService, ProductProviderService>();
         services.AddTransient<IScraperController, ScraperController>();
