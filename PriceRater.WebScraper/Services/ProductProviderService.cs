@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PriceRater.Common.Models;
 using PriceRater.WebScraper.Interfaces;
+using PriceRater.WebScraper.Models;
 using PriceRater.WebScraper.Utilities.Exceptions;
 
 namespace PriceRater.WebScraper.Services
@@ -38,15 +39,19 @@ namespace PriceRater.WebScraper.Services
                     RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
                 };
             }
-            catch (RetailerConfigurationException ex)
-            {
-                Console.WriteLine($"Failed to add {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
-                return null; 
-            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to add {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
-                return null;
+                return new ProductDTO()
+                {
+                    Title = null,
+                    Price = null,
+                    ClubcardPrice = null,
+                    WebAddress = webAddress,
+                    DateAdded = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
+                };
             }
         }
     }
