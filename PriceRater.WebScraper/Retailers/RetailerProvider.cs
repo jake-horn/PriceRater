@@ -11,7 +11,7 @@ namespace PriceRater.WebScraper.Retailers
             _retailers = retailers;
         }
 
-        public string GetRetailerFromWebAddress(string webAddress)
+        public async Task<string> GetRetailerFromWebAddress(string webAddress)
         {
             foreach (var retailer in _retailers)
             {

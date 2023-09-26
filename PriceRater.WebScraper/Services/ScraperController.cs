@@ -12,22 +12,22 @@ namespace PriceRater.WebScraper.Services
             _productProviderService = productProviderService;
         }
 
-        public IEnumerable<ProductDTO> ScrapeMultipleProducts(IEnumerable<string> webAddresses)
+        public async Task<IEnumerable<ProductDTO>> ScrapeMultipleProducts(IEnumerable<string> webAddresses)
         {
             IList<ProductDTO> scrapedProducts = new List<ProductDTO>();
 
             foreach(var webAddress in webAddresses)
             {
-                var product = ScrapeProduct(webAddress);
+                var product = await ScrapeProduct(webAddress);
                 scrapedProducts.Add(product);
             }
 
             return scrapedProducts;
         }
 
-        public ProductDTO ScrapeProduct(string webAddress)
+        public async Task<ProductDTO> ScrapeProduct(string webAddress)
         {
-            return _productProviderService.GetProductData(webAddress);
+            return await _productProviderService.GetProductData(webAddress);
         }
     }
 }

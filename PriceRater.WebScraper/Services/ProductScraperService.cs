@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Models;
+using Microsoft.Extensions.Logging;
 
 namespace PriceRater.WebScraper.Services
 {
@@ -10,11 +11,13 @@ namespace PriceRater.WebScraper.Services
     {
         private readonly IWebDriver _webDriver;
         private readonly WebDriverWait _webDriverWait;
+        private readonly ILogger<IProductScraperService> _logger;
 
-        public ProductScraperService(IWebDriver webDriver, WebDriverWait webDriverWait)
+        public ProductScraperService(IWebDriver webDriver, WebDriverWait webDriverWait, ILogger<IProductScraperService> logger)
         {
             _webDriver = webDriver;
             _webDriverWait = webDriverWait;
+            _logger = logger;
         }
 
         /// <summary>
@@ -50,6 +53,8 @@ namespace PriceRater.WebScraper.Services
 
             productData.Price = ReturnDecimalPriceFromString(GetElementTextByCssSelector(priceElement));
             productData.Title = GetElementTextByCssSelector(titleElement).Text;
+
+            _logger.LogInformation($"Scraped data: Title: {productData.Title}, Price: {productData.Price}, Clubcard Price: {productData.ClubcardPrice}.");
 
             return productData;
         }

@@ -11,6 +11,7 @@ using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Retailers.Retailers;
 using PriceRater.WebScraper.Retailers;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>
@@ -31,9 +32,9 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IRetailer, TescoRetailer>();
         services.AddTransient<IRetailerProvider, RetailerProvider>();
 
-        services.AddSingleton<IWebDriver, ChromeDriver>();
+        services.AddScoped<IWebDriver, ChromeDriver>();
 
-        services.AddSingleton(provider =>
+        services.AddScoped(provider =>
         {
             var webDriver = provider.GetRequiredService<IWebDriver>();
             return new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));
@@ -45,6 +46,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         var configuration = hostingContext.Configuration;
         var solutionRootConfiguration = configuration.GetSection("SolutionRoot").Value;
         services.AddSingleton(new SolutionRootModel { SolutionRoot = solutionRootConfiguration });
+
     })
     .ConfigureWebHostDefaults(webBuilder =>
     {

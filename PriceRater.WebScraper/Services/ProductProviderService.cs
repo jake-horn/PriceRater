@@ -16,9 +16,9 @@ namespace PriceRater.WebScraper.Services
             _productDataProvider = productDataProvider;
         }
 
-        public ProductDTO? GetProductData(string webAddress)
+        public async Task<ProductDTO?> GetProductData(string webAddress)
         {
-            var retailerConfig = _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
+            var retailerConfig = await _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
 
             if (retailerConfig.Equals("Invalid"))
                 throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
