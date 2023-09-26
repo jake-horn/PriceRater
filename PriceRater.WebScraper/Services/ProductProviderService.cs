@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using PriceRater.Common.Models;
 using PriceRater.WebScraper.Interfaces;
-using PriceRater.WebScraper.Models;
 using PriceRater.WebScraper.Utilities.Exceptions;
 
 namespace PriceRater.WebScraper.Services
@@ -10,11 +10,15 @@ namespace PriceRater.WebScraper.Services
     {
         private readonly IRetailerConfigurationProvider _retailerConfigurationProvider;
         private readonly IProductScraperService _productDataProvider;
+        private readonly ILogger<IProductProviderService> _logger; 
 
-        public ProductProviderService(IRetailerConfigurationProvider retailerConfigurationProvider, IProductScraperService productDataProvider)
+        public ProductProviderService(IRetailerConfigurationProvider retailerConfigurationProvider, 
+                                      IProductScraperService productDataProvider,
+                                      ILogger<IProductProviderService> logger)
         {
             _retailerConfigurationProvider = retailerConfigurationProvider;
             _productDataProvider = productDataProvider;
+            _logger = logger; 
         }
 
         public async Task<ProductDTO?> GetProductData(string webAddress)
@@ -22,11 +26,16 @@ namespace PriceRater.WebScraper.Services
             var retailerConfig = await _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
 
             if (retailerConfig.Equals("Invalid"))
+            {
+                _logger.LogError($"Invalid retailer for web address {webAddress}.");
                 throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
+            }
 
             try
             {
                 var productData = _productDataProvider.ProvideProductData(retailerConfig, webAddress);
+
+                _logger.LogInformation($"Scraped data for {webAddress} successfully.");
 
                 return new ProductDTO()
                 {
@@ -41,7 +50,8 @@ namespace PriceRater.WebScraper.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to add {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
+                _logger.LogError($"Failed to scrape {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
+
                 return new ProductDTO()
                 {
                     Title = null,
