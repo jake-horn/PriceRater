@@ -20,10 +20,10 @@ namespace PriceRater.WebScraper.Services
         /// </summary>
         /// <param name="webAddress">The full web address of the product to be scraped</param>
         /// <returns></returns>
-        public IConfiguration? GetRetailerConfiguration(string webAddress)
+        public async Task<IConfiguration?> GetRetailerConfiguration(string webAddress)
         {
             var appSettingsInformation = ConfigProvider.GetConfiguration(_solutionRoot, "appsettings.json");
-            var retailerName = _retailerProvider.GetRetailerFromWebAddress(webAddress);
+            var retailerName = await _retailerProvider.GetRetailerFromWebAddress(webAddress);
 
             var retailerConfigurationPath = appSettingsInformation[$"RetailerConfigurationPath:{retailerName}"]!;
 

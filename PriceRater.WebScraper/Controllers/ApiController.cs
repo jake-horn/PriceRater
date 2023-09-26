@@ -14,14 +14,14 @@ namespace PriceRater.WebScraper.Controllers
         }
 
         [HttpPost("scrapeproduct")]
-        public IActionResult ScrapeProduct([FromBody] string webAddress)
+        public async Task<IActionResult> ScrapeProduct([FromBody] string webAddress)
         {
             if (webAddress == null)
             {
                 return BadRequest("null value passed");
             }
 
-            var scrapeData = _scraperController.ScrapeProduct(webAddress);
+            var scrapeData = await _scraperController.ScrapeProduct(webAddress);
 
             return Ok(scrapeData);
         }
@@ -29,6 +29,11 @@ namespace PriceRater.WebScraper.Controllers
         [HttpPost("scrapemultipleproducts")]
         public IActionResult ScrapeMultipleProducts([FromBody] string webAddresses) 
         {
+            if (webAddresses == null)
+            {
+                return BadRequest("null value passed");
+            }
+
             IEnumerable<string> webAddressList = webAddresses.Split(',').ToList();
 
             var scrapedAddresses = _scraperController.ScrapeMultipleProducts(webAddressList);

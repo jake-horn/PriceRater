@@ -2,6 +2,6 @@
 {
     public interface IRetailerProvider
     {
-        string GetRetailerFromWebAddress(string webAddress);
+        public Task<string> GetRetailerFromWebAddress(string webAddress);
     }
 }
