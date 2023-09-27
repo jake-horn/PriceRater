@@ -14,8 +14,8 @@ namespace PriceRater.API.Controllers
             _productRepository = productRepository; 
         }
 
-        [HttpGet("getprices")]
-        public IActionResult GetPrices()
+        [HttpGet("getproducts")]
+        public IActionResult GetProducts()
         {
             var prices = _productRepository.GetProducts();
 
