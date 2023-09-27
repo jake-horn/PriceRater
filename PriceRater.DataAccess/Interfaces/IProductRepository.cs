@@ -12,5 +12,7 @@ namespace PriceRater.DataAccess.Interfaces
         public IEnumerable<ProductDTO> GetProducts();
 
         public IEnumerable<UserCategoryDTO> GetCategoriesAndProducts(int userId);
+
+        public bool DoesProductExist(string webAddress);
     }
 }

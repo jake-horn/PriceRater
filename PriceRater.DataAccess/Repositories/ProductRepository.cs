@@ -98,5 +98,29 @@ namespace PriceRater.DataAccess.Repositories
                 return null;
             }
         }
+
+        public bool DoesProductExist(string webAddress)
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    var parameters = new { webAddress = webAddress };
+
+                    connection.Open();
+
+                    bool doesProductExist = connection.QuerySingle<bool>("dbo.spCheckIfProductExists", parameters, commandType: CommandType.StoredProcedure);
+
+                    connection.Close();
+
+                    return doesProductExist;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+        }
     }
 }

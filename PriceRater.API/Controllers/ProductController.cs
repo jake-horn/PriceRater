@@ -67,9 +67,16 @@ namespace PriceRater.API.Controllers
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var responseData = JsonSerializer.Deserialize<ProductDTO>(jsonResponse);
 
-                    _productRepository.AddProduct(responseData);
-
-                    return Ok("Product added successfully");
+                    if(_productRepository.DoesProductExist(webAddress))
+                    {
+                        _productRepository.UpdateProduct(responseData);
+                        return Ok("Product updated successfully");
+                    }
+                    else
+                    {
+                        _productRepository.AddProduct(responseData);
+                        return Ok("Product added successfully");
+                    }
                 }
                 else
                 {
