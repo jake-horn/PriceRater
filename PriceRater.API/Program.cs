@@ -37,6 +37,11 @@ namespace PriceRater.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddHttpClient("WebScraperApi", client =>
+            {
+                client.BaseAddress = new Uri("http://127.0.0.1:5000/");
+            });
+
             builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
