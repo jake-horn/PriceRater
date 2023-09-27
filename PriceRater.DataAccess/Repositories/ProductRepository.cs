@@ -122,5 +122,29 @@ namespace PriceRater.DataAccess.Repositories
                 return false;
             }
         }
+
+        public DateTime ProductLastUpdated(string webAddress)
+        {
+            try
+            {
+                using (var connection = _connectionFactory.CreateConnection())
+                {
+                    var parameters = new { webAddress = webAddress };
+
+                    connection.Open();
+
+                    DateTime lastUpdated = connection.QuerySingle<DateTime>("dbo.spProductLastUpdated", parameters, commandType: CommandType.StoredProcedure);
+
+                    connection.Close();
+
+                    return lastUpdated;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                throw new Exception();
+            }
+        }
     }
 }

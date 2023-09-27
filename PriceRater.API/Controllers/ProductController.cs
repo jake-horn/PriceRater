@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using PriceRater.API.Helpers;
 using PriceRater.Common.Models;
 using PriceRater.DataAccess.Interfaces;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace PriceRater.API.Controllers
 {
@@ -12,7 +12,9 @@ namespace PriceRater.API.Controllers
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
-        private readonly IHttpClientFactory _httpClientFactory; 
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public bool TimeBetweenTwoDates { get; private set; }
 
         public ProductController(IProductRepository productRepository, IHttpClientFactory httpClientFactory)
         {
@@ -62,20 +64,28 @@ namespace PriceRater.API.Controllers
 
                 var response = await httpClient.PostAsync("scraper/scrapeproduct", content);
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var responseData = JsonSerializer.Deserialize<ProductDTO>(jsonResponse);
+                    var lastUpdated = _productRepository.ProductLastUpdated(webAddress);
 
-                    if(_productRepository.DoesProductExist(webAddress))
+                    if (_productRepository.DoesProductExist(webAddress))
                     {
-                        _productRepository.UpdateProduct(responseData);
-                        return Ok("Product updated successfully");
+                        if (DateTimeHelpers.TimeBetweenTwoDates(lastUpdated, DateTime.Now).TotalHours <= 24)
+                        {
+                            return Ok("Product already exists and has been updated within the last 24 hours.");
+                        }
+                        else
+                        {
+                            _productRepository.UpdateProduct(responseData);
+                            return Ok(responseData);
+                        }
                     }
                     else
                     {
                         _productRepository.AddProduct(responseData);
-                        return Ok("Product added successfully");
+                        return Ok(responseData);
                     }
                 }
                 else
