@@ -54,6 +54,14 @@ namespace PriceRater.API.Controllers
         [HttpPost("addproduct")]
         public async Task<IActionResult> AddProduct(string webAddress)
         {
+            var doesProductExist = _productRepository.DoesProductExist(webAddress);
+            var lastUpdated = _productRepository.ProductLastUpdated(webAddress);
+
+            if (DateTimeHelpers.TimeBetweenTwoDates(lastUpdated, DateTime.Now).TotalHours <= 24)
+            {
+                return Ok("Product already exists and has been updated within the last 24 hours.");
+            }
+
             try
             {
                 var productJson = JsonSerializer.Serialize(webAddress);
@@ -68,19 +76,11 @@ namespace PriceRater.API.Controllers
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var responseData = JsonSerializer.Deserialize<ProductDTO>(jsonResponse);
-                    var lastUpdated = _productRepository.ProductLastUpdated(webAddress);
 
-                    if (_productRepository.DoesProductExist(webAddress))
+                    if (doesProductExist)
                     {
-                        if (DateTimeHelpers.TimeBetweenTwoDates(lastUpdated, DateTime.Now).TotalHours <= 24)
-                        {
-                            return Ok("Product already exists and has been updated within the last 24 hours.");
-                        }
-                        else
-                        {
-                            _productRepository.UpdateProduct(responseData);
-                            return Ok(responseData);
-                        }
+                        _productRepository.UpdateProduct(responseData);
+                        return Ok(responseData);
                     }
                     else
                     {
