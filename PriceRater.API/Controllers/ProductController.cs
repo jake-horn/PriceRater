@@ -60,11 +60,15 @@ namespace PriceRater.API.Controllers
             }
 
             var doesProductExist = _productRepository.DoesProductExist(webAddress);
-            var lastUpdated = _productRepository.ProductLastUpdated(webAddress);
 
-            if (DateTimeHelpers.TimeBetweenTwoDates(lastUpdated, DateTime.Now).TotalHours <= 24)
+            if (doesProductExist)
             {
-                return Ok("Product already exists and has been updated within the last 24 hours.");
+                var lastUpdated = _productRepository.ProductLastUpdated(webAddress);
+
+                if (DateTimeHelpers.TimeBetweenTwoDates(lastUpdated, DateTime.Now).TotalHours <= 24)
+                {
+                    return Ok("Product already exists and has been updated within the last 24 hours.");
+                }
             }
 
             try
