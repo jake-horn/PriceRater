@@ -4,6 +4,7 @@ using PriceRater.DataAccess.Repositories;
 using Microsoft.Extensions.Hosting;
 using PriceRater.API.Authentication.Helpers;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using PriceRater.API.Helpers;
 
 namespace PriceRater.API
 {
@@ -37,6 +38,11 @@ namespace PriceRater.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddHttpClient("WebScraperApi", client =>
+            {
+                client.BaseAddress = new Uri("http://127.0.0.1:5000/");
+            });
+
             builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
@@ -46,6 +52,8 @@ namespace PriceRater.API
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+            builder.Services.AddScoped<IProductHelpers, ProductHelpers>();
 
             var app = builder.Build();
 
