@@ -13,13 +13,13 @@ namespace PriceRater.API.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IProductHelpers _productHelpers;
 
-        public bool TimeBetweenTwoDates { get; private set; }
-
-        public ProductController(IProductRepository productRepository, IHttpClientFactory httpClientFactory)
+        public ProductController(IProductRepository productRepository, IHttpClientFactory httpClientFactory, IProductHelpers productHelpers)
         {
             _productRepository = productRepository;
             _httpClientFactory = httpClientFactory;
+            _productHelpers = productHelpers;
         }
 
         [HttpGet("getproducts")]
@@ -54,6 +54,11 @@ namespace PriceRater.API.Controllers
         [HttpPost("addproduct")]
         public async Task<IActionResult> AddProduct(string webAddress)
         {
+            if (webAddress is null)
+            {
+                return BadRequest("web address is null");
+            }
+
             var doesProductExist = _productRepository.DoesProductExist(webAddress);
             var lastUpdated = _productRepository.ProductLastUpdated(webAddress);
 
@@ -65,10 +70,9 @@ namespace PriceRater.API.Controllers
             try
             {
                 var productJson = JsonSerializer.Serialize(webAddress);
+                var content = new StringContent(productJson, Encoding.UTF8, "application/json");
 
                 var httpClient = _httpClientFactory.CreateClient("WebScraperApi");
-
-                var content = new StringContent(productJson, Encoding.UTF8, "application/json");
 
                 var response = await httpClient.PostAsync("scraper/scrapeproduct", content);
 
@@ -77,16 +81,9 @@ namespace PriceRater.API.Controllers
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var responseData = JsonSerializer.Deserialize<ProductDTO>(jsonResponse);
 
-                    if (doesProductExist)
-                    {
-                        _productRepository.UpdateProduct(responseData);
-                        return Ok(responseData);
-                    }
-                    else
-                    {
-                        _productRepository.AddProduct(responseData);
-                        return Ok(responseData);
-                    }
+                    _productHelpers.AddOrUpdateProduct(responseData, _productRepository, doesProductExist);
+
+                    return Ok(responseData);
                 }
                 else
                 {
