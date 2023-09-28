@@ -4,6 +4,7 @@ using PriceRater.DataAccess.Repositories;
 using Microsoft.Extensions.Hosting;
 using PriceRater.API.Authentication.Helpers;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using PriceRater.API.Helpers;
 
 namespace PriceRater.API
 {
@@ -51,6 +52,8 @@ namespace PriceRater.API
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtService, JwtService>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+            builder.Services.AddScoped<IProductHelpers, ProductHelpers>();
 
             var app = builder.Build();
 
