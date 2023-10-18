@@ -1,7 +1,7 @@
 {
   "retailerId": "4",
   "cookiesPopUp": "base-components__BaseElement-sc-1mosoyj-0 styled__TextSpan-rsekm1-4 oznwo GDiMp beans-button__text",
-  "titleElement": ".product-details-tile__title",
-  "priceElement": "div[class='price-per-sellable-unit price-per-sellable-unit--price price-per-sellable-unit--price-per-item'] div span[class='value']",
-  "clubcardPriceElement": "div[class='promotions-wrapper hidden-small hidden-medium-small-only'] span[class='offer-text']"
+  "titleElement": ".component__StyledHeading-cy778r-0.ernAnS.styled__ProductTitle-mfe-pdp__sc-ebmhjv-6.flNJKr",
+  "priceElement": ".styled__StyledHeading-sc-119w3hf-2.iMgcJk.styled__Text-qgg5i6-1.lcSJlQ",
+  "clubcardPriceElement": ".styled__StyledOfferText-sc-1dvy23i-2.hcBpPZ"
 }
