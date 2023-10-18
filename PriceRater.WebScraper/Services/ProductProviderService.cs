@@ -10,7 +10,8 @@ namespace PriceRater.WebScraper.Services
     {
         private readonly IRetailerConfigurationProvider _retailerConfigurationProvider;
         private readonly IProductScraperService _productDataProvider;
-        private readonly ILogger<IProductProviderService> _logger; 
+        private readonly ILogger<IProductProviderService> _logger;
+        private const int MAX_ATTEMPTS = 2; 
 
         public ProductProviderService(IRetailerConfigurationProvider retailerConfigurationProvider, 
                                       IProductScraperService productDataProvider,
@@ -23,6 +24,7 @@ namespace PriceRater.WebScraper.Services
 
         public async Task<ProductDTO?> GetProductData(string webAddress)
         {
+            var numberOfAttempts = 0; 
             var retailerConfig = await _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
 
             if (retailerConfig.Equals("Invalid"))
@@ -31,38 +33,48 @@ namespace PriceRater.WebScraper.Services
                 throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
             }
 
-            try
+            while (numberOfAttempts <= MAX_ATTEMPTS)
             {
-                var productData = _productDataProvider.ProvideProductData(retailerConfig, webAddress);
-
-                _logger.LogInformation($"Scraped data for {webAddress} successfully.");
-
-                return new ProductDTO()
+                try
                 {
-                    Title = productData.Title,
-                    Price = productData.Price,
-                    ClubcardPrice = productData.ClubcardPrice,
-                    WebAddress = webAddress,
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now,
-                    RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to scrape {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
+                    var productData = _productDataProvider.ProvideProductData(retailerConfig, webAddress);
 
-                return new ProductDTO()
+                    _logger.LogInformation($"Scraped data for {webAddress} successfully.");
+
+                    return new ProductDTO()
+                    {
+                        Title = productData.Title,
+                        Price = productData.Price,
+                        ClubcardPrice = productData.ClubcardPrice,
+                        WebAddress = webAddress,
+                        DateAdded = DateTime.Now,
+                        DateUpdated = DateTime.Now,
+                        RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
+                    };
+                }
+                catch (Exception ex)
                 {
-                    Title = null,
-                    Price = null,
-                    ClubcardPrice = null,
-                    WebAddress = webAddress,
-                    DateAdded = DateTime.Now,
-                    DateUpdated = DateTime.Now,
-                    RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
-                };
+                    _logger.LogError($"Failed to scrape {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
+
+                    if (numberOfAttempts == 2)
+                    {
+                        return new ProductDTO()
+                        {
+                            Title = null,
+                            Price = null,
+                            ClubcardPrice = null,
+                            WebAddress = webAddress,
+                            DateAdded = DateTime.Now,
+                            DateUpdated = DateTime.Now,
+                            RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
+                        };
+                    }
+
+                    numberOfAttempts++; 
+                }
             }
+
+            throw new Exception();
         }
     }
 }

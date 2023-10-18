@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Models;
+using Microsoft.Extensions.Logging;
 
 namespace PriceRater.WebScraper.Services
 {
@@ -10,11 +11,13 @@ namespace PriceRater.WebScraper.Services
     {
         private readonly IWebDriver _webDriver;
         private readonly WebDriverWait _webDriverWait;
+        private readonly ILogger<IProductScraperService> _logger;
 
-        public ProductScraperService(IWebDriver webDriver, WebDriverWait webDriverWait)
+        public ProductScraperService(IWebDriver webDriver, WebDriverWait webDriverWait, ILogger<IProductScraperService> logger)
         {
             _webDriver = webDriver;
             _webDriverWait = webDriverWait;
+            _logger = logger;
         }
 
         /// <summary>
@@ -43,9 +46,16 @@ namespace PriceRater.WebScraper.Services
 
             if (webAddress.Contains("tesco.com"))
             {
-                var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement");
-                var clubcardPriceDecimal = ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
-                productData.ClubcardPrice = clubcardPriceDecimal;
+                try
+                {
+                    var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement");
+                    var clubcardPriceDecimal = ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
+                    productData.ClubcardPrice = clubcardPriceDecimal;
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogError($"Tesco price issue: {ex.GetType().FullName} - {ex.Message}");
+                }
             }
 
             productData.Price = ReturnDecimalPriceFromString(GetElementTextByCssSelector(priceElement));
