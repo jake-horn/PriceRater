@@ -56,7 +56,7 @@ namespace PriceRater.WebScraper.Services
                 {
                     _logger.LogError($"Failed to scrape {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
 
-                    if (numberOfAttempts == 2)
+                    if (numberOfAttempts == MAX_ATTEMPTS)
                     {
                         return new ProductDTO()
                         {

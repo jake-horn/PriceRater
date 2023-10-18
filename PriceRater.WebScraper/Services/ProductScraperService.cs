@@ -52,9 +52,9 @@ namespace PriceRater.WebScraper.Services
                     var clubcardPriceDecimal = ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
                     productData.ClubcardPrice = clubcardPriceDecimal;
                 }
-                catch(Exception ex)
+                catch
                 {
-                    _logger.LogError($"Tesco price issue: {ex.GetType().FullName} - {ex.Message}");
+                    _logger.LogInformation("No Clubcard price");
                 }
             }
 
