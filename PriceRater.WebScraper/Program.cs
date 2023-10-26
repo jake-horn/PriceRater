@@ -21,11 +21,16 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((hostingContext, services) =>
     {
+        // Set up any locations from appsettings.json that are required
+        var configuration = hostingContext.Configuration;
+        var solutionRootConfiguration = configuration.GetSection("SolutionRoot").Value;
+        var loggingConfigLocation = configuration.GetSection("LoggingLocation").Value;
+
         services.AddLogging(builder =>
         {
             var logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.File("C:/Users/spawn/Desktop/log.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(loggingConfigLocation!, rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             builder.AddSerilog(logger);
@@ -54,8 +59,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IRetailerConfigurationProvider, RetailerConfigurationProvider>();
 
         // Sets up the configuration for the solution root
-        var configuration = hostingContext.Configuration;
-        var solutionRootConfiguration = configuration.GetSection("SolutionRoot").Value;
         services.AddSingleton(new SolutionRootModel { SolutionRoot = solutionRootConfiguration });
 
     })
