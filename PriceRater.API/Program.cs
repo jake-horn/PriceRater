@@ -23,15 +23,12 @@ namespace PriceRater.API
             // Add services to the container.
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy(name: apiCorsPolicy,
-                    policy =>
-                    {
-                        /*policy.WithOrigins(new[] { "http://localhost:5500", "https://localhost:5500" });
-                        policy.AllowAnyHeader();
-                        policy.AllowAnyMethod();
-                        policy.AllowCredentials();*/
-                        policy.AllowAnyOrigin();
-                    });
+                options.AddDefaultPolicy(config =>
+                {
+                    config.WithOrigins(builder.Configuration["AllowedOrigins"]);
+                    config.AllowAnyHeader();
+                    config.AllowAnyMethod();
+                });
             });
           
             builder.Services.AddControllers();
