@@ -9,12 +9,51 @@
     <script src="javascript/script.js"></script>
 </head>
 <body>
+    <header>
+        <h2>PriceRater</h2>
+    </header>
     <nav>
-
+        <ul>
+            <li>Home</li>
+            <li>Manage Categories</li>
+            <li>Manage Products</li>
+        </ul>
     </nav>
     
     <main>
-        <button class="callButton" onclick="getCategories()">Click me</button>
+        <button>Add</button>
+        <button>Update Prices</button>
+        <table>
+            <thead>
+                <td>Category</td>
+                <td>Retailer1</td>
+                <td>Retailer2</td>
+                <td>Retailer3</td>
+                <td>Actions</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chicken</td>
+                    <td>£6.95</td>
+                    <td>£6.45</td>
+                    <td>£6.30</td>
+                </tr>
+                <tr>
+                    <td>Rice</td>
+                    <td>£0.99</td>
+                    <td>£1.20</td>
+                    <td>£1.10</td>
+                </tr>
+                <tr>
+                    <td>Washing Pods</td>
+                    <td>£7.95</td>
+                    <td>£4.50</td>
+                    <td>£10.15</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--<button class="callButton" onclick="getCategories()">Click me</button>
 
         <table id="pricesTable">
             <thead>
@@ -28,7 +67,7 @@
             <tbody>
 
             </tbody>
-        </table>
+        </table>-->
     </main>
 
     <footer>
