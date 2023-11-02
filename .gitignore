@@ -350,3 +350,5 @@ MigrationBackup/
 .ionide/
 
 /PriceRater.WebScraper/appsettings.json
+/PriceRater.API/appsettings.json
+/PriceRater.API/appsettings.Development.json

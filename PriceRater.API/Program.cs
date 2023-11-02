@@ -13,7 +13,6 @@ namespace PriceRater.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var apiCorsPolicy = "apiCorsPolicy";
 
             var sqlConfig = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -54,7 +53,7 @@ namespace PriceRater.API
 
             var app = builder.Build();
 
-            app.UseCors(apiCorsPolicy);
+            app.UseCors();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
