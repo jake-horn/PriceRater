@@ -23,11 +23,16 @@ namespace PriceRater.WebScraper.Controllers
 
             var scrapeData = await _scraperController.ScrapeProduct(webAddress);
 
+            if (scrapeData.Title is null)
+            {
+                return NotFound("Scraping product failed.");
+            }
+
             return Ok(scrapeData);
         }
 
         [HttpPost("scrapemultipleproducts")]
-        public IActionResult ScrapeMultipleProducts([FromBody] string webAddresses) 
+        public async Task<IActionResult> ScrapeMultipleProducts([FromBody] string webAddresses) 
         {
             if (webAddresses == null)
             {
@@ -36,7 +41,7 @@ namespace PriceRater.WebScraper.Controllers
 
             IEnumerable<string> webAddressList = webAddresses.Split(',').ToList();
 
-            var scrapedAddresses = _scraperController.ScrapeMultipleProducts(webAddressList);
+            var scrapedAddresses = await _scraperController.ScrapeMultipleProducts(webAddressList);
 
             return Ok(scrapedAddresses);
         }

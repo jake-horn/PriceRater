@@ -27,8 +27,7 @@ namespace PriceRater.WebScraper.Services
 
         public async Task<ProductDTO> ScrapeProduct(string webAddress)
         {
-            var product = await _productProviderService.GetProductData(webAddress);
-            return product; 
+            return await _productProviderService.GetProductData(webAddress); 
         }
     }
 }
