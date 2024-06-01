@@ -24,16 +24,9 @@ namespace PriceRater.WebScraper.Services
 
         public async Task<ProductDTO?> GetProductData(string webAddress)
         {
-            var numberOfAttempts = 0; 
-            var retailerConfig = await _retailerConfigurationProvider.GetRetailerConfiguration(webAddress)!;
+            var retailerConfig = await GetRetailerConfigAsync(webAddress);
 
-            if (retailerConfig.Equals("Invalid"))
-            {
-                _logger.LogError($"Invalid retailer for web address {webAddress}.");
-                throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
-            }
-
-            while (numberOfAttempts <= MAX_ATTEMPTS)
+            for (int attempts = 1; attempts <= MAX_ATTEMPTS; attempts++)
             {
                 try
                 {
@@ -55,26 +48,28 @@ namespace PriceRater.WebScraper.Services
                 catch (Exception ex)
                 {
                     _logger.LogError($"Failed to scrape {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
+                }
 
-                    if (numberOfAttempts == MAX_ATTEMPTS)
-                    {
-                        return new ProductDTO()
-                        {
-                            Title = null,
-                            Price = null,
-                            ClubcardPrice = null,
-                            WebAddress = webAddress,
-                            DateAdded = DateTime.Now,
-                            DateUpdated = DateTime.Now,
-                            RetailerId = int.Parse(retailerConfig.GetValue<string>("retailerId")!)
-                        };
-                    }
-
-                    numberOfAttempts++; 
+                if (attempts == MAX_ATTEMPTS)
+                {
+                    throw new ScraperFailureException($"Failed to scrape {webAddress} after MAX_ATTEMPTS.");
                 }
             }
 
-            throw new Exception();
+            throw new InvalidOperationException("Unexpected error in GetProductData outside of loop.");
+        }
+
+        private async Task<IConfiguration> GetRetailerConfigAsync(string webAddress)
+        {
+            var retailerConfig = await _retailerConfigurationProvider.GetRetailerConfiguration(webAddress);
+
+            if (retailerConfig.Equals("Invalid") || retailerConfig is null)
+            {
+                _logger.LogError($"Invalid retailer for web address {webAddress}.");
+                throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
+            }
+
+            return retailerConfig;
         }
     }
 }
