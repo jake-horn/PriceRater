@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using PriceRater.WebScraper.Interfaces;
 using PriceRater.WebScraper.Models;
 using Microsoft.Extensions.Logging;
+using PriceRater.WebScraper.Utilities.Helpers;
 
 namespace PriceRater.WebScraper.Services
 {
@@ -49,7 +50,7 @@ namespace PriceRater.WebScraper.Services
                 try
                 {
                     var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement");
-                    var clubcardPriceDecimal = ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
+                    var clubcardPriceDecimal = ScraperHelpers.ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
                     productData.ClubcardPrice = clubcardPriceDecimal;
                 }
                 catch
@@ -58,7 +59,7 @@ namespace PriceRater.WebScraper.Services
                 }
             }
 
-            productData.Price = ReturnDecimalPriceFromString(GetElementTextByCssSelector(priceElement));
+            productData.Price = ScraperHelpers.ReturnDecimalPriceFromString(GetElementTextByCssSelector(priceElement));
             productData.Title = GetElementTextByCssSelector(titleElement).Text;
 
             return productData;
@@ -70,17 +71,6 @@ namespace PriceRater.WebScraper.Services
         private IWebElement GetElementTextByCssSelector(string selectorText)
         {
             return _webDriver.FindElement(By.CssSelector(selectorText));
-        }
-
-        /// <summary>
-        /// Functionality for returning the decimal value of the price scraped from the website. 
-        /// </summary>
-        /// <param name="price">An IWebElement consisting of the scraped price</param>
-        /// <returns></returns>
-        private decimal ReturnDecimalPriceFromString(IWebElement price)
-        {
-            string priceTrimmed = new(String.Concat(price.Text.Where(x => x == '.' || Char.IsDigit(x))));
-            return Decimal.Parse(priceTrimmed);
         }
 
         /// <summary>
