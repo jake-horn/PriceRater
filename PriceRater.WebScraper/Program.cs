@@ -48,7 +48,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<IRetailer, TescoRetailer>();
         services.AddTransient<IRetailerProvider, RetailerProvider>();
 
-        services.AddScoped<IWebDriver>(provider =>
+        services.AddTransient<IWebDriver>(provider =>
         {
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArgument("--headless=new");
@@ -57,7 +57,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
             return chromeDriver; 
         });
 
-        services.AddScoped(provider =>
+        services.AddTransient(provider =>
         {
             var webDriver = provider.GetRequiredService<IWebDriver>();
             return new WebDriverWait(webDriver, TimeSpan.FromSeconds(2));

@@ -14,16 +14,24 @@ namespace PriceRater.WebScraper.Services
 
         public async Task<IEnumerable<ProductDTO>> ScrapeMultipleProducts(IEnumerable<string> webAddresses)
         {
-            IList<ProductDTO> scrapedProducts = new List<ProductDTO>();
-
-            foreach(var webAddress in webAddresses)
+            var semaphore = new SemaphoreSlim(5);
+            var scrapeTasks = webAddresses.Select(webAddress => Task.Run(async () =>
             {
-                var product = await ScrapeProduct(webAddress);
-                scrapedProducts.Add(product);
-            }
+                await semaphore.WaitAsync();
+                try
+                {
+                    return await _productProviderService.GetProductData(webAddress);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            }));
 
+            var scrapedProducts = await Task.WhenAll(scrapeTasks);
             return scrapedProducts;
         }
+
 
         public async Task<ProductDTO> ScrapeProduct(string webAddress)
         {
