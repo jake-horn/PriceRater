@@ -12,9 +12,9 @@ namespace PriceRater.WebScraper.Services
             _productProviderService = productProviderService;
         }
 
-        public async Task<IEnumerable<ProductDTO>> ScrapeMultipleProducts(IEnumerable<string> webAddresses)
+        public async Task<IEnumerable<ProductDTO?>> ScrapeMultipleProducts(IEnumerable<string> webAddresses)
         {
-            var semaphore = new SemaphoreSlim(5);
+            var semaphore = new SemaphoreSlim(2,10);
             var scrapeTasks = webAddresses.Select(webAddress => Task.Run(async () =>
             {
                 await semaphore.WaitAsync();
@@ -28,12 +28,11 @@ namespace PriceRater.WebScraper.Services
                 }
             }));
 
-            var scrapedProducts = await Task.WhenAll(scrapeTasks);
-            return scrapedProducts;
+            return await Task.WhenAll(scrapeTasks);
         }
 
 
-        public async Task<ProductDTO> ScrapeProduct(string webAddress)
+        public async Task<ProductDTO?> ScrapeProduct(string webAddress)
         {
             return await _productProviderService.GetProductData(webAddress); 
         }

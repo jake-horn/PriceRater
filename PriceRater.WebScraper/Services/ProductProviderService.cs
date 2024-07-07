@@ -32,7 +32,7 @@ namespace PriceRater.WebScraper.Services
                 {
                     var productData = _productDataProvider.ProvideProductData(retailerConfig, webAddress);
 
-                    _logger.LogInformation($"Scraped data for {webAddress} successfully.");
+                    _logger.LogInformation("Scraped data for {webAddress} successfully.", webAddress);
 
                     return new ProductDTO()
                     {
@@ -47,7 +47,7 @@ namespace PriceRater.WebScraper.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Failed to scrape {webAddress}, error: {ex.GetType().FullName} : {ex.Message}");
+                    _logger.LogError("Failed to scrape {WebAddress}, error: {ErrorName} : {Message}", webAddress, ex.GetType().FullName, ex.Message);
                 }
 
                 if (attempts == MAX_ATTEMPTS)
@@ -63,9 +63,9 @@ namespace PriceRater.WebScraper.Services
         {
             var retailerConfig = await _retailerConfigurationProvider.GetRetailerConfiguration(webAddress);
 
-            if (retailerConfig.Equals("Invalid") || retailerConfig is null)
+            if (retailerConfig!.Equals("Invalid") || retailerConfig is null)
             {
-                _logger.LogError($"Invalid retailer for web address {webAddress}.");
+                _logger.LogError("Invalid retailer for web address {webAddress}.", webAddress);
                 throw new RetailerConfigurationException($"Invalid retailer for {webAddress}");
             }
 

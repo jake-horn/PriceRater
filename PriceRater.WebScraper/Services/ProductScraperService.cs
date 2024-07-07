@@ -42,14 +42,14 @@ namespace PriceRater.WebScraper.Services
 
             CookiePopupHandler(retailerConfig, webAddress);
 
-            var titleElement = retailerConfig.GetValue<string>("titleElement");
-            var priceElement = retailerConfig.GetValue<string>("priceElement");
+            var titleElement = retailerConfig.GetValue<string>("titleElement")!;
+            var priceElement = retailerConfig.GetValue<string>("priceElement")!;
 
             if (webAddress.Contains("tesco.com"))
             {
                 try
                 {
-                    var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement");
+                    var clubcardElement = retailerConfig.GetValue<string>("clubcardPriceElement")!;
                     var clubcardPriceDecimal = ScraperHelpers.ReturnDecimalPriceFromString(GetElementTextByCssSelector(clubcardElement));
                     productData.ClubcardPrice = clubcardPriceDecimal;
                 }

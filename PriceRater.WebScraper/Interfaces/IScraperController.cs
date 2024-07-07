@@ -9,8 +9,8 @@ namespace PriceRater.WebScraper.Interfaces
 {
     public interface IScraperController
     {
-        public Task<ProductDTO> ScrapeProduct(string webAddress);
+        public Task<ProductDTO?> ScrapeProduct(string webAddress);
 
-        public Task<IEnumerable<ProductDTO>> ScrapeMultipleProducts(IEnumerable<string> webAddresses);
+        public Task<IEnumerable<ProductDTO?>> ScrapeMultipleProducts(IEnumerable<string> webAddresses);
     }
 }
